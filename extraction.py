@@ -5,32 +5,33 @@ import math
 
 #global declaration of patterns
 pattern_num = r"[0-9]+\.?[0-9]*"
+pattern_negative_num = r"\-{0,1}[0-9]+\.?[0-9]*"
 pattern_signs = r"[\+,\-,\*,%,\^,/,\(,\)]"
 pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
 pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)" #this matches everything between ( and ) ie sin(x) - cos(x) is also matched because of the parenthesis at the ends which i have coloned
 pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)" # this only matches sin(x)
 pattern_alpha = r"[a-z]"
-pattern_trig_raw = r"[s,c,t,l,a][a-z]*\([0-9]+\.?[0-9]*?\)"
-pattern_trig_cos = r"cos\([0-9]+\.?[0-9]*?\)"
-pattern_trig_sin = r"sin\([0-9]+\.?[0-9]*?\)"
-pattern_trig_tan = r"tan\([0-9]+\.?[0-9]*?\)"
-pattern_trig_log = r"log\([0-9]+\.?[0-9]*?\)"
-pattern_trig_ln = r"ln\([0-9]+\.?[0-9]*?\)"
-pattern_trig_arcsin = r"arcsin\([0-9]+\.?[0-9]*?\)"
-pattern_trig_arccos = r"arccos\([0-9]+\.?[0-9]*?\)"
-pattern_trig_arctan = r"arctan\([0-9]+\.?[0-9]*?\)"
-pattern_trig_arcsinh = r"arcsinh\([0-9]+\.?[0-9]*?\)"
-pattern_trig_arccosh = r"arccosh\([0-9]+\.?[0-9]*?\)"
-pattern_trig_arctanh = r"arctanh\([0-9]+\.?[0-9]*?\)"
+pattern_trig_raw = r"[s,c,t,l,a][a-z]*\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_cos = r"cos\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_sin = r"sin\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_tan = r"tan\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_log = r"log\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_ln = r"ln\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_arcsin = r"arcsin\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_arccos = r"arccos\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_arctan = r"arctan\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_arcsinh = r"arcsinh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_arccosh = r"arccosh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_arctanh = r"arctanh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arccosh|arctanh"
 
 
 
 def evaluate_exp(raw_string,x=0.0,y=0.0,z=0.0):
 	tokens = extract(raw_string)
-	print(tokens)
+	#print(tokens)
 	rpn = to_rpn(tokens)
-	print(rpn)
+	#print(rpn)
 	output = evaluate(rpn,x,y,z)
 	return output
 
@@ -43,49 +44,49 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 			output_queue.append(float(i))
 		elif re.match(pattern_trig_raw,i):
 			if re.match(pattern_trig_sin,i):
-				number = float(re.findall(pattern_num,i)[0])
+				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.sin(number))
 			elif re.match(pattern_trig_cos,i):
-				number = float(re.findall(pattern_num,i)[0])
+				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.cos(number))			
 			elif re.match(pattern_trig_tan,i):
-				number = float(re.findall(pattern_num,i)[0])
+				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.tan(number))	
 			elif re.match(pattern_trig_log,i):
 				try:
-					number = float(re.findall(pattern_num,i)[0])
+					number = float(re.findall(pattern_negative_num,i)[0])
 					output_queue.append(math.log10(number))	
 				except:
 					print("Error. Did you try to find log of 0 or negative numbers?")
 					return -1
 			elif re.match(pattern_trig_ln,i):
 				try:
-					number = float(re.findall(pattern_num,i)[0])
+					number = float(re.findall(pattern_negative_num,i)[0])
 					output_queue.append(math.log(number))	
 				except:
 					print("Error. Did you try to find ln of 0 or negative numbers?")
 					return -1
 			elif re.match(pattern_trig_arcsin,i):
 				try:
-					number = float(re.findall(pattern_num,i)[0])
+					number = float(re.findall(pattern_negative_num,i)[0])
 					output_queue.append(math.asin(number))	
 				except:
 					print("Arcsin's input out of range (-1,1)")
 					return -1
 			elif re.match(pattern_trig_arccos,i):
-				number = float(re.findall(pattern_num,i)[0])
+				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.acos(number))	
 			elif re.match(pattern_trig_arctan,i):
-				number = float(re.findall(pattern_num,i)[0])
+				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.atan(number))	
 			elif re.match(pattern_trig_arcsinh,i):
-				number = float(re.findall(pattern_num,i)[0])
+				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.asinh(number))	
 			elif re.match(pattern_trig_acosh,i):
-				number = float(re.findall(pattern_num,i)[0])
+				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.acosh(number))	
 			elif re.match(pattern_trig_atanh,i):
-				number = float(re.findall(pattern_num,i)[0])
+				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.atanh(number))	
 		
 		elif re.match(pattern_trig_extend,i):
@@ -162,11 +163,11 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(math.atanh(z))
 			else:
 				re_token = extract(re.findall("\(.*\)",i)[0])
-				#print(re_token)
+				print(re_token)
 				re_torpn = to_rpn(re_token)
-				#print(re_torpn)
+				print(re_torpn)
 				re_value = evaluate(re_torpn,x,y,z)
-				#print(re_value)
+				print(re_value)
 				#print(i)
 				#final = evaluate(i[:len(i)-len(re_token)]+"(" + str(re_value) + ")",x,y,z)
 				length_org = 0				
@@ -181,7 +182,7 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				#print(length_org)	
 				#print(length_dec)	
 				re_lst = [i[:length_org-length_dec]+"(" + str(re_value) + ")"]
-				#print(re_lst)
+				print(re_lst)
 				final = evaluate(re_lst,x,y,z)
 				#print(final)
 				output_queue.append(final)
