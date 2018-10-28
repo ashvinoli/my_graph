@@ -163,11 +163,11 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(math.atanh(z))
 			else:
 				re_token = extract(re.findall("\(.*\)",i)[0])
-				print(re_token)
+				#print(re_token)
 				re_torpn = to_rpn(re_token)
-				print(re_torpn)
+				#print(re_torpn)
 				re_value = evaluate(re_torpn,x,y,z)
-				print(re_value)
+				#print(re_value)
 				#print(i)
 				#final = evaluate(i[:len(i)-len(re_token)]+"(" + str(re_value) + ")",x,y,z)
 				length_org = 0				
@@ -182,7 +182,7 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				#print(length_org)	
 				#print(length_dec)	
 				re_lst = [i[:length_org-length_dec]+"(" + str(re_value) + ")"]
-				print(re_lst)
+				#print(re_lst)
 				final = evaluate(re_lst,x,y,z)
 				#print(final)
 				output_queue.append(final)
@@ -190,15 +190,17 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 		
 		elif re.match(pattern_signs_no_brackets,i):
 			second = output_queue.pop()
+			first = 0.0
 			if len(output_queue) != 0:
 				first = output_queue.pop()
 			if i == '+':
 				output_queue.append(first+second)
 			elif i=='-':
-				if len(output_queue) != 0:
-					output_queue.append(first-second)
-				else:
+				if first == 0.0:				
 					output_queue.append(-1 * second)
+				else:
+					output_queue.append(first-second)
+				
 			elif i=='*':
 				output_queue.append(first*second)
 			elif i=='/':
