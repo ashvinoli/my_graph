@@ -10,6 +10,26 @@ pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
 #pattern_trig = r"[s,c,t,l,a][a-z]*\(.*\)" this shit matches everything between ( and ) ie sin(x) - cos(x) is also matched because of the parenthesis at the ends which i have coloned
 pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)" # this shit only matches sin(x)
 pattern_alpha = r"[a-z]"
+pattern_trig_raw = r"[s,c,t,l,a][a-z]*\([0-9]+\.?[0-9]*?\)"
+pattern_trig_cos = r"cos\([0-9]+\.?[0-9]*?\)"
+pattern_trig_sin = r"sin\([0-9]+\.?[0-9]*?\)"
+pattern_trig_tan = r"tan\([0-9]+\.?[0-9]*?\)"
+pattern_trig_log = r"log\([0-9]+\.?[0-9]*?\)"
+pattern_trig_ln = r"ln\([0-9]+\.?[0-9]*?\)"
+pattern_trig_arcsin = r"arcsin\([0-9]+\.?[0-9]*?\)"
+pattern_trig_arccos = r"arccos\([0-9]+\.?[0-9]*?\)"
+pattern_trig_arctan = r"arctan\([0-9]+\.?[0-9]*?\)"
+pattern_trig_arcsinh = r"arcsinh\([0-9]+\.?[0-9]*?\)"
+pattern_trig_arccosh = r"arccosh\([0-9]+\.?[0-9]*?\)"
+pattern_trig_arctanh = r"arctanh\([0-9]+\.?[0-9]*?\)"
+
+
+
+def evaluate_exp(raw_string):
+	tokens = extract(raw_string)
+	rpn = to_rpn(tokens)
+	output = evaluate(rpn)
+	return output
 
 
 def evaluate(queue,x=0.0,y=0.0,z=0.0):
@@ -18,6 +38,41 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 		#print(i)
 		if re.match(pattern_num,i):
 			output_queue.append(float(i))
+		elif re.match(pattern_trig_raw,i):
+			if re.match(pattern_trig_sin,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.sin(number))
+			elif re.match(pattern_trig_cos,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.cos(number))			
+			elif re.match(pattern_trig_tan,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.tan(number))	
+			elif re.match(pattern_trig_log,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.log10(number))	
+			elif re.match(pattern_trig_ln,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.log(number))	
+			elif re.match(pattern_trig_arcsin,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.asin(number))	
+			elif re.match(pattern_trig_arccos,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.acos(number))	
+			elif re.match(pattern_trig_arctan,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.atan(number))	
+			elif re.match(pattern_trig_arcsinh,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.asinh(number))	
+			elif re.match(pattern_trig_acosh,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.acosh(number))	
+			elif re.match(pattern_trig_atanh,i):
+				number = float(re.findall(pattern_num,i)[0])
+				output_queue.append(math.atanh(number))	
+		
 		elif re.match(pattern_trig,i):
 			#print("reached")
 			if i=="sin(x)":
@@ -86,6 +141,7 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(math.acosh(z))
 			elif i == "arctanh(z)":
 				output_queue.append(math.atanh(z))
+		
 		elif re.match(pattern_signs_no_brackets,i):
 			second = output_queue.pop()
 			first = output_queue.pop()
@@ -204,11 +260,5 @@ def extract(raw_string):
 
 
 text = input("PLACE:")
-tokens = extract(text)
-rpn = to_rpn(tokens)
-
-print(tokens)
-print(rpn)
-output = evaluate(rpn,45)
-print(output)
+print(evaluate_exp(text))
 
