@@ -25,10 +25,10 @@ pattern_trig_arctanh = r"arctanh\([0-9]+\.?[0-9]*?\)"
 
 
 
-def evaluate_exp(raw_string):
+def evaluate_exp(raw_string,x=0.0,y=0.0,z=0.0):
 	tokens = extract(raw_string)
 	rpn = to_rpn(tokens)
-	output = evaluate(rpn)
+	output = evaluate(rpn,x,y,z)
 	return output
 
 
@@ -49,14 +49,26 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				number = float(re.findall(pattern_num,i)[0])
 				output_queue.append(math.tan(number))	
 			elif re.match(pattern_trig_log,i):
-				number = float(re.findall(pattern_num,i)[0])
-				output_queue.append(math.log10(number))	
+				try:
+					number = float(re.findall(pattern_num,i)[0])
+					output_queue.append(math.log10(number))	
+				except:
+					print("Error. Did you try to find log of 0 or negative numbers?")
+					return -1
 			elif re.match(pattern_trig_ln,i):
-				number = float(re.findall(pattern_num,i)[0])
-				output_queue.append(math.log(number))	
+				try:
+					number = float(re.findall(pattern_num,i)[0])
+					output_queue.append(math.log(number))	
+				except:
+					print("Error. Did you try to find ln of 0 or negative numbers?")
+					return -1
 			elif re.match(pattern_trig_arcsin,i):
-				number = float(re.findall(pattern_num,i)[0])
-				output_queue.append(math.asin(number))	
+				try:
+					number = float(re.findall(pattern_num,i)[0])
+					output_queue.append(math.asin(number))	
+				except:
+					print("Arcsin's input out of range (-1,1)")
+					return -1
 			elif re.match(pattern_trig_arccos,i):
 				number = float(re.findall(pattern_num,i)[0])
 				output_queue.append(math.acos(number))	
@@ -82,7 +94,11 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 			elif i=="tan(x)":
 				output_queue.append(math.tan(x))
 			elif i == "log(x)":
-				output_queue.append(math.log10(x))
+				try:
+					output_queue.append(math.log10(x))
+				except:
+					print("Error. Did you try log of 0 or negative numbers?")
+					return -1
 			elif i =="ln(x)":
 				output_queue.append(math.log(x))
 			elif i == "arcsin(x)":
