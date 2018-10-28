@@ -20,6 +20,7 @@ def extract(raw_string):
 					nums = ""
 				tokens.append(i)
 		
+	tokens.append(nums)	
 	return tokens
 
 
