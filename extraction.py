@@ -1,5 +1,7 @@
 import re
 from collections import deque
+import math
+
 
 #global declaration of patterns
 pattern_num = r"[0-9]+\.?[0-9]*"
@@ -10,6 +12,115 @@ pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)" # this shit only matches sin(x)
 pattern_alpha = r"[a-z]"
 
 
+def evaluate(queue,x=0.0,y=0.0,z=0.0):
+	output_queue = deque([])
+	for i in queue:
+		#print(i)
+		if re.match(pattern_num,i):
+			output_queue.append(float(i))
+		elif re.match(pattern_trig,i):
+			#print("reached")
+			if i=="sin(x)":
+				output_queue.append(math.sin(x))
+			elif i=="cos(x)":
+				output_queue.append(math.cos(x))
+			elif i=="tan(x)":
+				output_queue.append(math.tan(x))
+			elif i == "log(x)":
+				output_queue.append(math.log10(x))
+			elif i =="ln(x)":
+				output_queue.append(math.log(x))
+			elif i == "arcsin(x)":
+				output_queue.append(math.asin(x))
+			elif i == "arccos(x)":
+				output_queue.append(math.acos(x))
+			elif i == "arctan(x)":
+				output_queue.append(math.atan(x))
+			elif i == "arcsinh(x)":
+				output_queue.append(math.asinh(x))
+			elif i == "arccosh(x)":
+				output_queue.append(math.acosh(x))
+			elif i == "arctanh(x)":
+				output_queue.append(math.atanh(x))
+			elif i=="sin(y)":
+				output_queue.append(math.sin(y))
+			elif i=="cos(y)":
+				output_queue.append(math.cos(y))
+			elif i=="tan(y)":
+				output_queue.append(math.tan(y))
+			elif i == "log(y)":
+				output_queue.append(math.log10(y))
+			elif i == "ln(y)":
+				output_queue.append(math.log(y))
+			elif i == "arcsin(y)":
+				output_queue.append(math.asin(y))
+			elif i == "arccos(y)":
+				output_queue.append(math.acos(y))
+			elif i == "arctan(y)":
+				output_queue.append(math.atan(y))
+			elif i == "arcsinh(y)":
+				output_queue.append(math.asinh(y))
+			elif i == "arccosh(y)":
+				output_queue.append(math.acosh(y))
+			elif i == "arctanh(y)":
+				output_queue.append(math.atanh(y))
+			elif i=="sin(z)":
+				output_queue.append(math.sin(z))
+			elif i=="cos(z)":
+				output_queue.append(math.cos(z))
+			elif i=="tan(z)":
+				output_queue.append(math.tan(z))
+			elif i == "log(z)":
+				output_queue.append(math.log10(z))
+			elif i == "ln(z)":
+				output_queue.append(math.log(z))
+			elif i == "arcsin(z)":
+				output_queue.append(math.asin(z))
+			elif i == "arccos(z)":
+				output_queue.append(math.acos(z))
+			elif i == "arctan(z)":
+				output_queue.append(math.atan(z))
+			elif i == "arcsinh(z)":
+				output_queue.append(math.asinh(z))
+			elif i == "arccosh(z)":
+				output_queue.append(math.acosh(z))
+			elif i == "arctanh(z)":
+				output_queue.append(math.atanh(z))
+		elif re.match(pattern_signs_no_brackets,i):
+			second = output_queue.pop()
+			first = output_queue.pop()
+			if i == '+':
+				output_queue.append(first+second)
+			elif i=='-':
+				output_queue.append(first-second)
+			elif i=='*':
+				output_queue.append(first*second)
+			elif i=='/':
+				try:
+					output_queue.append(first/second)
+				except:
+					print("Error. Perhaps division by zero attempt")
+					return -1
+			elif i=='^':
+				output_queue.append(first**second)
+			elif i=='%':
+				output_queue.append(first%second)
+
+		elif re.match(pattern_alpha,i):
+			if i == 'x':
+				output_queue.append(x)
+			elif i == 'y':
+				output_queue.append(y)
+			elif i == 'z':
+				output_queue.append(z)
+			elif i == 'e':
+				output_queue.append(math.e)
+		
+			
+	return output_queue[0]	
+	
+
+		
 def to_rpn(tokens):
 	output_queue = deque([])
 	op_stack = []
@@ -45,6 +156,7 @@ def to_rpn(tokens):
 	for i in range(len(op_stack)):	
 		output_queue.append(op_stack.pop())	
 	return output_queue				
+
 
 def comp_op(first,second):
 	op = {'+':0, '-':1, '*':2,'/':2,'%':2,'^':3}
@@ -93,5 +205,10 @@ def extract(raw_string):
 
 text = input("PLACE:")
 tokens = extract(text)
+rpn = to_rpn(tokens)
+
 print(tokens)
-print(to_rpn(tokens))
+print(rpn)
+output = evaluate(rpn,45)
+print(output)
+
