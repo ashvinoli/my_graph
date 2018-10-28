@@ -2,6 +2,7 @@ import re
 
 def extract(raw_string):
 	pattern = r"[0-9]"
+	pattern_trig = r"[s,c,t,l,a][a-z]*(.*)"
 	try:
 		new_strings = raw_string.split('=')
 		new_strings = new_strings[1].split()
@@ -11,6 +12,9 @@ def extract(raw_string):
 	tokens = []
 	nums = ""
 	for j in new_strings:
+		if re.match(pattern_trig,j):
+			tokens.append(j)
+			continue
 		for i in j:
 			if re.match(pattern,i) or i == ".":
 				nums = nums + i
@@ -19,8 +23,9 @@ def extract(raw_string):
 					tokens.append(nums)
 					nums = ""
 				tokens.append(i)
-		
-	tokens.append(nums)	
+	
+	if nums != "":	
+		tokens.append(nums)	
 	return tokens
 
 
