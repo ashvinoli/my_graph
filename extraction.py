@@ -7,8 +7,8 @@ import math
 pattern_num = r"[0-9]+\.?[0-9]*"
 pattern_signs = r"[\+,\-,\*,%,\^,/,\(,\)]"
 pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
-#pattern_trig = r"[s,c,t,l,a][a-z]*\(.*\)" this shit matches everything between ( and ) ie sin(x) - cos(x) is also matched because of the parenthesis at the ends which i have coloned
-pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)" # this shit only matches sin(x)
+pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)" #this matches everything between ( and ) ie sin(x) - cos(x) is also matched because of the parenthesis at the ends which i have coloned
+pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)" # this only matches sin(x)
 pattern_alpha = r"[a-z]"
 pattern_trig_raw = r"[s,c,t,l,a][a-z]*\([0-9]+\.?[0-9]*?\)"
 pattern_trig_cos = r"cos\([0-9]+\.?[0-9]*?\)"
@@ -22,12 +22,15 @@ pattern_trig_arctan = r"arctan\([0-9]+\.?[0-9]*?\)"
 pattern_trig_arcsinh = r"arcsinh\([0-9]+\.?[0-9]*?\)"
 pattern_trig_arccosh = r"arccosh\([0-9]+\.?[0-9]*?\)"
 pattern_trig_arctanh = r"arctanh\([0-9]+\.?[0-9]*?\)"
+pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arccosh|arctanh"
 
 
 
 def evaluate_exp(raw_string,x=0.0,y=0.0,z=0.0):
 	tokens = extract(raw_string)
+	#print(tokens)
 	rpn = to_rpn(tokens)
+	#print(rpn)
 	output = evaluate(rpn,x,y,z)
 	return output
 
@@ -85,7 +88,7 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				number = float(re.findall(pattern_num,i)[0])
 				output_queue.append(math.atanh(number))	
 		
-		elif re.match(pattern_trig,i):
+		elif re.match(pattern_trig_extend,i):
 			#print("reached")
 			if i=="sin(x)":
 				output_queue.append(math.sin(x))
@@ -157,6 +160,32 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(math.acosh(z))
 			elif i == "arctanh(z)":
 				output_queue.append(math.atanh(z))
+			else:
+				re_token = extract(re.findall("\(.*\)",i)[0])
+				#print(re_token)
+				re_torpn = to_rpn(re_token)
+				#print(re_torpn)
+				re_value = evaluate(re_torpn,x,y,z)
+				#print(re_value)
+				#print(i)
+				#final = evaluate(i[:len(i)-len(re_token)]+"(" + str(re_value) + ")",x,y,z)
+				length_org = 0				
+				length_dec = 0
+				for m in re_token:
+					for j in m:
+						length_dec += 1;
+				
+				for n in i:
+					length_org +=1;	
+							
+				#print(length_org)	
+				#print(length_dec)	
+				re_lst = [i[:length_org-length_dec]+"(" + str(re_value) + ")"]
+				#print(re_lst)
+				final = evaluate(re_lst,x,y,z)
+				#print(final)
+				output_queue.append(final)
+				
 		
 		elif re.match(pattern_signs_no_brackets,i):
 			second = output_queue.pop()
@@ -206,11 +235,14 @@ def to_rpn(tokens):
 			
 			else:
 				read_op = op_stack[len(op_stack)-1]
+				#print(read_op)
 				if not(read_op == ')' or read_op == '('):
 					while comp_op(read_op,i):
 						output_queue.append(op_stack.pop())
 						if len(op_stack)!=0:
 							read_op = op_stack[len(op_stack)-1]
+							if read_op == ')' or read_op == '(':
+								break
 						else:	
 							break
 				op_stack.append(i)
@@ -255,11 +287,14 @@ def extract(raw_string):
 			word = re.findall(pattern_signs,single_piece)
 			tokens.append(word[0])
 			single_piece = single_piece[len(word[0]):]
-		elif re.match(pattern_trig,single_piece):
-			word = re.findall(pattern_trig,single_piece)
+		elif re.match(pattern_trig_general,single_piece):
+			word = re.findall(pattern_trig_general,single_piece)
+			extra_piece = match_paren(single_piece[len(word[0]):])
+			total_word = word[0] + extra_piece
 			#print(word[0])
-			tokens.append(word[0])
-			single_piece = single_piece[len(word[0]):]
+			#print(total_word)
+			tokens.append(total_word)
+			single_piece = single_piece[len(total_word):]
 		elif re.match(pattern_alpha,single_piece):
 			word = re.findall(pattern_alpha,single_piece)
 			tokens.append(word[0])
@@ -275,5 +310,21 @@ def extract(raw_string):
 
 
 
+def match_paren(string):
+	counter = 0
+	extracted = ""
+	for i in string:
+		extracted = extracted + i
+		if i=="(":
+			counter+=1
+		if i==")":
+			counter -=1
+		if counter==0:
+			break
+	
+	if counter !=0:
+		print("No matching prenthesis.")
+		return -1			
+	return extracted
 
 
