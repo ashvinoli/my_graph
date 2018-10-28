@@ -28,9 +28,9 @@ pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arc
 
 def evaluate_exp(raw_string,x=0.0,y=0.0,z=0.0):
 	tokens = extract(raw_string)
-	#print(tokens)
+	print(tokens)
 	rpn = to_rpn(tokens)
-	#print(rpn)
+	print(rpn)
 	output = evaluate(rpn,x,y,z)
 	return output
 
@@ -189,11 +189,15 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 		
 		elif re.match(pattern_signs_no_brackets,i):
 			second = output_queue.pop()
-			first = output_queue.pop()
+			if len(output_queue) != 0:
+				first = output_queue.pop()
 			if i == '+':
 				output_queue.append(first+second)
 			elif i=='-':
-				output_queue.append(first-second)
+				if len(output_queue) != 0:
+					output_queue.append(first-second)
+				else:
+					output_queue.append(-1 * second)
 			elif i=='*':
 				output_queue.append(first*second)
 			elif i=='/':
