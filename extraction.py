@@ -259,6 +259,5 @@ def extract(raw_string):
 
 
 
-text = input("PLACE:")
-print(evaluate_exp(text))
+
 
