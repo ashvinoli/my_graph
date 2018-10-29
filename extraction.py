@@ -31,7 +31,7 @@ def evaluate_exp(raw_string,x=0.0,y=0.0,z=0.0):
 	tokens = extract(raw_string)
 	print(tokens)
 	rpn = to_rpn(tokens)
-	#print(rpn)
+	print(rpn)
 	output = evaluate(rpn,x,y,z)
 	return output
 
@@ -271,7 +271,7 @@ def to_rpn(tokens):
 
 def comp_op(first,second):
 	op = {'+':0, '-':1, '*':2,'/':2,'%':2,'^':3}
-	return op[first] > op[second]
+	return op[first] >= op[second]
 
 def extract(raw_string):
 	try:
