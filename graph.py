@@ -10,18 +10,19 @@ pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)"
 
 def eval_arr(x_arr,function):
 	output = np.array([])
+	#length = 0
 	for i in x_arr:
-		print(i,e_exp(function,i))
-		output = np.append(output,e_exp(function,i))
-		
+		#length+=1
+		#print(i,e_exp(function,i))
+		output = np.append(output,e_exp(function,i))	
 	return output
 
 
 def plot_function(function,begin=0,end=2*math.pi,interval=100):
 	x = np.linspace(begin,end,interval)
 	y = eval_arr(x,function)
-	plt.plot(x,y)
-	plt.show()
+	plt.plot(x,y,label = function)
+	plt.legend()
 
 def count_parent(string):
 	total = 0
@@ -42,7 +43,7 @@ def trig_equal_parent(string):
 		if i=="(" or i==")":
 			total_brackets +=1;
 		
-	if total_brackets == 2*total_trigs:
+	if total_brackets >= 2*total_trigs:
 		return 0
 	else:
 		return -1
@@ -61,8 +62,15 @@ def syntax_check(string):
 	return 0
 		
 
-function = input("input function:")
-valid = syntax_check(function)
-#print(e_exp(function))
-if valid==0:
-	plot_function(function)
+function1 = input("input function:")
+function2 = input("second function:")
+valid1 = syntax_check(function1)
+valid2 = syntax_check(function2)
+
+if valid1==0:
+	plot_function(function1)
+if valid2==0:
+	plot_function(function2)
+
+plt.show()
+
