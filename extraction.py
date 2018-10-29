@@ -29,9 +29,9 @@ pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arc
 
 def evaluate_exp(raw_string,x=0.0,y=0.0,z=0.0):
 	tokens = extract(raw_string)
-	print(tokens)
+	#print(tokens)
 	rpn = to_rpn(tokens)
-	print(rpn)
+	#print(rpn)
 	output = evaluate(rpn,x,y,z)
 	return output
 
