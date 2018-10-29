@@ -82,10 +82,10 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 			elif re.match(pattern_trig_arcsinh,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.asinh(number))	
-			elif re.match(pattern_trig_acosh,i):
+			elif re.match(pattern_trig_arccosh,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.acosh(number))	
-			elif re.match(pattern_trig_atanh,i):
+			elif re.match(pattern_trig_arctanh,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(math.atanh(number))	
 		
