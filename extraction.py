@@ -310,7 +310,7 @@ def extract(raw_string):
 	ast_list = ["*"]
 	i=0
 	while i < len(tokens)-1:
-		if re.match(pattern_num,tokens[i]) and (re.match(pattern_alpha,tokens[i+1]) or re.match(pattern_trig,tokens[i+1]) or re.match("\(",tokens[i+1]) ):
+		if (re.match(pattern_num,tokens[i]) and (re.match(pattern_alpha,tokens[i+1]) or re.match(pattern_trig,tokens[i+1]) or re.match("\(",tokens[i+1]) )) or (re.match(pattern_trig,tokens[i]) and re.match(pattern_trig,tokens[i+1]) ):
 			tokens = tokens[:i+1] + ast_list + tokens[i+1:]
 		i = i+1 
 	return tokens	

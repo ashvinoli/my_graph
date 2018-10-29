@@ -20,4 +20,5 @@ def plot_function(function,begin=0,end=2*math.pi,interval=100):
 	plt.show()
 
 function = input("input function:")
+#print(e_exp(function))
 plot_function(function)
