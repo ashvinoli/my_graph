@@ -29,7 +29,7 @@ pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arc
 
 def evaluate_exp(raw_string,x=0.0,y=0.0,z=0.0):
 	tokens = extract(raw_string)
-	#print(tokens)
+	print(tokens)
 	rpn = to_rpn(tokens)
 	#print(rpn)
 	output = evaluate(rpn,x,y,z)
@@ -310,7 +310,7 @@ def extract(raw_string):
 	ast_list = ["*"]
 	i=0
 	while i < len(tokens)-1:
-		if re.match(pattern_num,tokens[i]) and (re.match(pattern_alpha,tokens[i+1]) or re.match(pattern_trig,tokens[i+1]) ):
+		if re.match(pattern_num,tokens[i]) and (re.match(pattern_alpha,tokens[i+1]) or re.match(pattern_trig,tokens[i+1]) or re.match("\(",tokens[i+1]) ):
 			tokens = tokens[:i+1] + ast_list + tokens[i+1:]
 		i = i+1 
 	return tokens	
