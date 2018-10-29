@@ -1,6 +1,7 @@
 from extraction import evaluate_exp as e_exp
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 #print(e_exp(a,1,2,3))
 
@@ -12,7 +13,7 @@ def eval_arr(x_arr,function):
 	return output
 
 function = input("input function:")
-x = np.linspace(0,2,100)
+x = np.linspace(0,2*math.pi,100)
 y = eval_arr(x,function)
 plt.plot(x,y)
 plt.show()
