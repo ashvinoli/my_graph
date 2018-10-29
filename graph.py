@@ -12,8 +12,12 @@ def eval_arr(x_arr,function):
 		output = np.append(output,e_exp(function,i))
 	return output
 
+
+def plot_function(function,begin=0,end=2*math.pi,interval=100):
+	x = np.linspace(begin,end,interval)
+	y = eval_arr(x,function)
+	plt.plot(x,y)
+	plt.show()
+
 function = input("input function:")
-x = np.linspace(0,2*math.pi,100)
-y = eval_arr(x,function)
-plt.plot(x,y)
-plt.show()
+plot_function(function)
