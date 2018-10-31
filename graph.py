@@ -22,8 +22,9 @@ def plot_function(function,value = 1,begin=0,end=2*math.pi,interval=100):
 	x = np.linspace(begin,end,interval)
 	y = eval_arr(x,function)
 	plt.subplot(2,2,value)
-	plt.plot(x,y,label=function)
+	plt.plot(x,y,'k',label=function) #k signigies the color of line
 	plt.title(function)	
+	plt.grid(True)
 
 def count_parent(string):
 	total = 0
@@ -81,7 +82,7 @@ def main_input():
 			print("\n")
 		else:
 			plot_function(function,value)
-		value += 1
+			value += 1
 		print("\n")
 		resp = (input("Anymore function?:")).lower()
 		if resp == 'n' or resp == 'no':
