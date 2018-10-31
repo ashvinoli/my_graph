@@ -25,6 +25,10 @@ def plot_function(function,value = 1,begin=0,end=2*math.pi,interval=100):
 	plt.plot(x,y,'k',label=function) #k signigies the color of line
 	plt.title(function)	
 	plt.grid(True)
+	#plt.xlabel('x')
+	#plt.ylabel('y')
+	#plt.xscale('linear')
+	#plt.yscale('log')
 
 def count_parent(string):
 	total = 0
