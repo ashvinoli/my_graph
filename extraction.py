@@ -45,122 +45,122 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 		elif re.match(pattern_trig_raw,i):
 			if re.match(pattern_trig_sin,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(math.sin(number))
+				output_queue.append(round((math.sin(number)),5))
 			elif re.match(pattern_trig_cos,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(math.cos(number))			
+				output_queue.append(round((math.cos(number),5)))			
 			elif re.match(pattern_trig_tan,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(math.tan(number))	
+				output_queue.append(round((math.tan(number)),5))	
 			elif re.match(pattern_trig_log,i):
 				try:
 					number = float(re.findall(pattern_negative_num,i)[0])
-					output_queue.append(math.log10(number))	
+					output_queue.append(round((math.log10(number)),5))	
 				except:
 					print("Error. Did you try to find log of 0 or negative numbers?")
 					return -1
 			elif re.match(pattern_trig_ln,i):
 				try:
 					number = float(re.findall(pattern_negative_num,i)[0])
-					output_queue.append(math.log(number))	
+					output_queue.append(round((math.log(number)),5))	
 				except:
 					print("Error. Did you try to find ln of 0 or negative numbers?")
 					return -1
 			elif re.match(pattern_trig_arcsin,i):
 				try:
 					number = float(re.findall(pattern_negative_num,i)[0])
-					output_queue.append(math.asin(number))	
+					output_queue.append(round((math.asin(number)),5))	
 				except:
 					print("Arcsin's input out of range (-1,1)")
 					return -1
 			elif re.match(pattern_trig_arccos,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(math.acos(number))	
+				output_queue.append(round((math.acos(number)),5))	
 			elif re.match(pattern_trig_arctan,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(math.atan(number))	
+				output_queue.append(round((math.atan(number)),5))	
 			elif re.match(pattern_trig_arcsinh,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(math.asinh(number))	
+				output_queue.append(round((math.asinh(number)),5))	
 			elif re.match(pattern_trig_arccosh,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(math.acosh(number))	
+				output_queue.append(round((math.acosh(number)),5))
 			elif re.match(pattern_trig_arctanh,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(math.atanh(number))	
+				output_queue.append(round((math.atanh(number)),5))	
 		
 		elif re.match(pattern_trig_extend,i):
 			#print("reached")
 			if i=="sin(x)":
-				output_queue.append(math.sin(x))
+				output_queue.append(round((math.sin(x)),5))
 			elif i=="cos(x)":
-				output_queue.append(math.cos(x))
+				output_queue.append(round((math.cos(x)),5))
 			elif i=="tan(x)":
-				output_queue.append(math.tan(x))
+				output_queue.append(round((math.tan(x)),5))
 			elif i == "log(x)":
 				try:
-					output_queue.append(math.log10(x))
+					output_queue.append(round((math.log10(x)),5))
 				except:
 					print("Error. Did you try log of 0 or negative numbers?")
 					return -1
 			elif i =="ln(x)":
-				output_queue.append(math.log(x))
+				output_queue.append(round((math.log(x)),5))
 			elif i == "arcsin(x)":
-				output_queue.append(math.asin(x))
+				output_queue.append(round((math.asin(x)),5))
 			elif i == "arccos(x)":
-				output_queue.append(math.acos(x))
+				output_queue.append(round((math.acos(x)),5))
 			elif i == "arctan(x)":
-				output_queue.append(math.atan(x))
+				output_queue.append(round((math.atan(x)),5))
 			elif i == "arcsinh(x)":
-				output_queue.append(math.asinh(x))
+				output_queue.append(round((math.asinh(x)),5))
 			elif i == "arccosh(x)":
-				output_queue.append(math.acosh(x))
+				output_queue.append(round((math.acosh(x)),5))
 			elif i == "arctanh(x)":
-				output_queue.append(math.atanh(x))
+				output_queue.append(round((math.atanh(x)),5))
 			elif i=="sin(y)":
-				output_queue.append(math.sin(y))
+				output_queue.append(round((math.sin(y)),5))
 			elif i=="cos(y)":
-				output_queue.append(math.cos(y))
+				output_queue.append(round((math.cos(y)),5))
 			elif i=="tan(y)":
-				output_queue.append(math.tan(y))
+				output_queue.append(round((math.tan(y)),5))
 			elif i == "log(y)":
-				output_queue.append(math.log10(y))
+				output_queue.append(round((math.log10(y)),5))
 			elif i == "ln(y)":
-				output_queue.append(math.log(y))
+				output_queue.append(round((math.log(y)),5))
 			elif i == "arcsin(y)":
-				output_queue.append(math.asin(y))
+				output_queue.append(round((math.asin(y)),5))
 			elif i == "arccos(y)":
-				output_queue.append(math.acos(y))
+				output_queue.append(round((math.acos(y)),5))
 			elif i == "arctan(y)":
-				output_queue.append(math.atan(y))
+				output_queue.append(round((math.atan(y)),5))
 			elif i == "arcsinh(y)":
-				output_queue.append(math.asinh(y))
+				output_queue.append(round((math.asinh(y)),5))
 			elif i == "arccosh(y)":
-				output_queue.append(math.acosh(y))
+				output_queue.append(round((math.acosh(y)),5))
 			elif i == "arctanh(y)":
-				output_queue.append(math.atanh(y))
+				output_queue.append(round((math.atanh(y)),5))
 			elif i=="sin(z)":
-				output_queue.append(math.sin(z))
+				output_queue.append(round((math.sin(z)),5))
 			elif i=="cos(z)":
-				output_queue.append(math.cos(z))
+				output_queue.append(round((math.cos(z)),5))
 			elif i=="tan(z)":
-				output_queue.append(math.tan(z))
+				output_queue.append(round((math.tan(z)),5))
 			elif i == "log(z)":
-				output_queue.append(math.log10(z))
+				output_queue.append(round((math.log10(z)),5))
 			elif i == "ln(z)":
-				output_queue.append(math.log(z))
+				output_queue.append(round((math.log(z)),5))
 			elif i == "arcsin(z)":
-				output_queue.append(math.asin(z))
+				output_queue.append(round((math.asin(z)),5))
 			elif i == "arccos(z)":
-				output_queue.append(math.acos(z))
+				output_queue.append(round((math.acos(z)),5))
 			elif i == "arctan(z)":
-				output_queue.append(math.atan(z))
+				output_queue.append(round((math.atan(z)),5))
 			elif i == "arcsinh(z)":
-				output_queue.append(math.asinh(z))
+				output_queue.append(round((math.asinh(z)),5))
 			elif i == "arccosh(z)":
-				output_queue.append(math.acosh(z))
+				output_queue.append(round((math.acosh(z)),5))
 			elif i == "arctanh(z)":
-				output_queue.append(math.atanh(z))
+				output_queue.append(round((math.atanh(z)),5))
 			else:
 				re_token = extract(re.findall("\(.*\)",i)[0])
 				#print(re_token)
