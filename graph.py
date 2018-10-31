@@ -29,6 +29,8 @@ def plot_function(function,value = 1,status='d',begin=0,end=2*math.pi,interval=1
 		plt.grid(True)
 	elif status == 's':
 		plt.plot(x,y,label=function)
+	else:
+		print("Wrong status argument.")
 	#plt.xlabel('x')
 	#plt.ylabel('y')
 	#plt.xscale('linear')
@@ -83,7 +85,16 @@ def show_all():
 def main_input():
 	check = 1
 	value = 1
+	if (len(sys.argv) == 1):
+		print("No arguments passes. Please pass 's' or 'd' as arguments")
+		return -1
+
 	status = sys.argv[1].lower()
+
+	if not(status =='d' or status =='s'):
+		print("Wrong arguments passed. Please pass 's' or 'd' as arguments")
+		return -1
+	
 	while check:
 		function = input("%d Function Please:"% (value))
 		correct = syntax_check(function)
@@ -97,9 +108,9 @@ def main_input():
 		resp = (input("Anymore function?:")).lower()
 		if resp == 'n' or resp == 'no':
 			check = 0
-		
+	show_all()	
 		
 main_input()
-show_all()
+
 
 
