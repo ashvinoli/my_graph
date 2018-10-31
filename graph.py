@@ -18,11 +18,12 @@ def eval_arr(x_arr,function):
 	return output
 
 
-def plot_function(function,begin=0,end=2*math.pi,interval=100):
+def plot_function(function,value = 1,begin=0,end=2*math.pi,interval=100):
 	x = np.linspace(begin,end,interval)
 	y = eval_arr(x,function)
-	plt.plot(x,y,label = function)
-	
+	plt.subplot(2,2,value)
+	plt.plot(x,y,label=function)
+	plt.title(function)	
 
 def count_parent(string):
 	total = 0
@@ -59,11 +60,14 @@ def syntax_check(string):
 	if total_matched==-1:
 		print("Put parenthesis after every sin, cos, tan..... like sin(x) or sin(sin(x))....")
 		return -1
+	if string == "":
+		print("Empty function")
+		return -1
 	return 0
 		
 
+
 def show_all():
-	plt.legend()
 	plt.show()
 
 def main_input():
@@ -73,10 +77,10 @@ def main_input():
 		function = input("%d Function Please:"% (value))
 		correct = syntax_check(function)
 		if correct == -1:
-			print("Function %d will not be plotted" % (value))
+			print("Function %d will not be plotted." % (value))
 			print("\n")
 		else:
-			plot_function(function)
+			plot_function(function,value)
 		value += 1
 		print("\n")
 		resp = (input("Anymore function?:")).lower()
