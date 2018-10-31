@@ -22,7 +22,7 @@ def plot_function(function,begin=0,end=2*math.pi,interval=100):
 	x = np.linspace(begin,end,interval)
 	y = eval_arr(x,function)
 	plt.plot(x,y,label = function)
-	plt.legend()
+	
 
 def count_parent(string):
 	total = 0
@@ -62,15 +62,27 @@ def syntax_check(string):
 	return 0
 		
 
-function1 = input("input function:")
-function2 = input("second function:")
-valid1 = syntax_check(function1)
-valid2 = syntax_check(function2)
+def show_all():
+	plt.legend()
+	plt.show()
 
-if valid1==0:
-	plot_function(function1)
-if valid2==0:
-	plot_function(function2)
+def main_input():
+	check = 1
+	value = 1
+	while check:
+		function = input("%d Function Please:"% (value))
+		correct = syntax_check(function)
+		if correct == -1:
+			return -1
+		plot_function(function)
+		value += 1
+		print("\n")
+		resp = (input("Anymore function?:")).lower()
+		if resp == 'n' or resp == 'no':
+			check = 0
+		
+		
+main_input()
+show_all()
 
-plt.show()
 
