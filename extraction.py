@@ -104,7 +104,12 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 					print("Error. Did you try log of 0 or negative numbers?")
 					return -1
 			elif i =="ln(x)":
-				output_queue.append(round((math.log(x)),8))
+				#output_queue.append(round((math.log(x)),8))
+				try:
+					output_queue.append(round((math.log(x)),8))
+				except:
+					print("Error. Did you try ln of 0 or negative numbers?")
+					return -1
 			elif i == "arcsin(x)":
 				output_queue.append(round((math.asin(x)),8))
 			elif i == "arccos(x)":
