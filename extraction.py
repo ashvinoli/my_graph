@@ -170,19 +170,9 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				#print(re_value)
 				#print(i)
 				#final = evaluate(i[:len(i)-len(re_token)]+"(" + str(re_value) + ")",x,y,z)
-				length_org = 0				
-				length_dec = 0
-				for m in re_token:
-					for j in m:
-						length_dec += 1;
-				
-				for n in i:
-					length_org +=1;	
-							
-				#print(length_org)	
-				#print(length_dec)	
-				re_lst = [i[:length_org-length_dec]+"(" + str(re_value) + ")"]
-				#print(re_lst)
+				length = len(re.findall(pattern_trig_general,i)[0])	
+				re_lst = [i[:length]+"(" + str(re_value) + ")"]
+				#print(i,re_lst)
 				final = evaluate(re_lst,x,y,z)
 				#print(final)
 				output_queue.append(final)
