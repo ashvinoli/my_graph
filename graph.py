@@ -29,6 +29,7 @@ def plot_function(function,value = 1,status='d',begin=0,end=2*math.pi,interval=1
 		plt.grid(True)
 	elif status == 's':
 		plt.plot(x,y,label=function)
+		plt.legend()
 	else:
 		print("Wrong status argument.")
 	#plt.xlabel('x')
@@ -79,7 +80,7 @@ def syntax_check(string):
 
 
 def show_all():
-	plt.legend()
+	#plt.legend()
 	plt.show()
 
 def main_input():
@@ -100,12 +101,12 @@ def main_input():
 		correct = syntax_check(function)
 		if correct == -1:
 			print("Function %d will not be plotted." % (value))
-			print("\n")
 		else:
 			plot_function(function,value,status)
 			value += 1
 		print("\n")
 		resp = (input("Anymore function?:")).lower()
+		print("\n")
 		if resp == 'n' or resp == 'no':
 			check = 0
 	show_all()	
