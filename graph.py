@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import re
+import sys
 
 pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arccosh|arctanh"
 pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)"
@@ -18,13 +19,16 @@ def eval_arr(x_arr,function):
 	return output
 
 
-def plot_function(function,value = 1,begin=0,end=2*math.pi,interval=100):
+def plot_function(function,value = 1,status='d',begin=0,end=2*math.pi,interval=100):
 	x = np.linspace(begin,end,interval)
 	y = eval_arr(x,function)
-	plt.subplot(2,2,value)
-	plt.plot(x,y,'k',label=function) #k signigies the color of line
-	plt.title(function)	
-	plt.grid(True)
+	if status=='d':
+		plt.subplot(2,2,value)
+		plt.plot(x,y,label=function) #k signigies the color of line
+		plt.title(function)	
+		plt.grid(True)
+	elif status == 's':
+		plt.plot(x,y,label=function)
 	#plt.xlabel('x')
 	#plt.ylabel('y')
 	#plt.xscale('linear')
@@ -73,11 +77,13 @@ def syntax_check(string):
 
 
 def show_all():
+	plt.legend()
 	plt.show()
 
 def main_input():
 	check = 1
 	value = 1
+	status = sys.argv[1].lower()
 	while check:
 		function = input("%d Function Please:"% (value))
 		correct = syntax_check(function)
@@ -85,7 +91,7 @@ def main_input():
 			print("Function %d will not be plotted." % (value))
 			print("\n")
 		else:
-			plot_function(function,value)
+			plot_function(function,value,status)
 			value += 1
 		print("\n")
 		resp = (input("Anymore function?:")).lower()
