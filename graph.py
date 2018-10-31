@@ -73,8 +73,10 @@ def main_input():
 		function = input("%d Function Please:"% (value))
 		correct = syntax_check(function)
 		if correct == -1:
-			return -1
-		plot_function(function)
+			print("Function %d will not be plotted" % (value))
+			print("\n")
+		else:
+			plot_function(function)
 		value += 1
 		print("\n")
 		resp = (input("Anymore function?:")).lower()
