@@ -6,8 +6,8 @@ import math
 #global declaration of patterns
 pattern_num = r"[0-9]+\.?[0-9]*"
 pattern_negative_num = r"\-{0,1}[0-9]+\.?[0-9]*"
-pattern_signs = r"[\+,\-,\*,%,\^,/,\(,\)]"
-pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
+pattern_signs = r"[\+,\-,\*,%,\^,/,\(,\),#,@]"
+pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/,#,@]"
 pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)" #this matches everything between ( and ) ie sin(x) - cos(x) is also matched because of the parenthesis at the ends which i have coloned
 pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)" # this only matches sin(x)
 pattern_alpha = r"[a-z]"
@@ -33,6 +33,7 @@ def evaluate_exp(raw_string,x=0.0,y=0.0,z=0.0):
 	rpn = to_rpn(tokens)
 	#print(rpn)
 	output = evaluate(rpn,x,y,z)
+	#print(output)
 	return output
 
 
@@ -184,29 +185,58 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				
 		
 		elif re.match(pattern_signs_no_brackets,i):
-			second = output_queue.pop()
-			first = 0.0
-			if len(output_queue) != 0:
+			#signs = 0
+			#not_signs = 0
+			#unary_mode = False
+			#for i in queue:
+			#	if re.match(pattern_signs_no_brackets,i):
+			#		signs +=1
+			#	else:
+			#		not_signs += 1
+			#if signs >= not_signs:
+			#	unary_mode = True			
+						
+			
+
+
+			#second = output_queue.pop()
+			#first = 0.0
+			#if len(output_queue) != 0:
+				#first = output_queue.pop()
+
+			if i=='#':
+				second = output_queue.pop()
+				output_queue.append((-1)*second)
+			elif i=='@':
+				second = output_queue.pop()
+				output_queue.append(second)
+			elif i == '+':
+				second = output_queue.pop()
 				first = output_queue.pop()
-			if i == '+':
 				output_queue.append(first+second)
 			elif i=='-':
-				if first == 0.0:				
-					output_queue.append(-1 * second)
-				else:
-					output_queue.append(first-second)
-				
+				second = output_queue.pop()
+				first = output_queue.pop()
+				output_queue.append(first-second)
 			elif i=='*':
+				second = output_queue.pop()
+				first = output_queue.pop()
 				output_queue.append(first*second)
 			elif i=='/':
+				second = output_queue.pop()
+				first = output_queue.pop()
 				try:
 					output_queue.append(first/second)
 				except:
 					print("Error. Perhaps division by zero attempt")
 					return -1
 			elif i=='^':
+				second = output_queue.pop()
+				first = output_queue.pop()
 				output_queue.append(first**second)
 			elif i=='%':
+				second = output_queue.pop()
+				first = output_queue.pop()
 				output_queue.append(first%second)
 
 		elif re.match(pattern_alpha,i):
@@ -265,7 +295,7 @@ def to_rpn(tokens):
 
 
 def comp_op(first,second):
-	op = {'+':0, '-':1, '*':2,'/':2,'%':2,'^':3}
+	op = {'+':0, '-':1, '*':2,'/':2,'%':2,'^':3,'#':1,'@':0}
 	return op[first] >= op[second]
 
 def extract(raw_string):
@@ -308,6 +338,11 @@ def extract(raw_string):
 		if (re.match(pattern_num,tokens[i]) and (re.match(pattern_alpha,tokens[i+1]) or re.match(pattern_trig,tokens[i+1]) or re.match("\(",tokens[i+1]) )) or (re.match(pattern_trig,tokens[i]) and re.match(pattern_trig,tokens[i+1]) ):
 			tokens = tokens[:i+1] + ast_list + tokens[i+1:]
 		i = i+1 
+	for i in range(len(tokens)-1):
+		if re.match("\(",tokens[i]) and re.match("\-",tokens[i+1]):
+			tokens[i+1] = '#'
+		if re.match("\(",tokens[i]) and re.match("\+",tokens[i+1]):
+			tokens[i+1] = '@'
 	return tokens	
 
 

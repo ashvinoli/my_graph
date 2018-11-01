@@ -97,7 +97,7 @@ def main_input():
 		return -1
 	
 	while check:
-		function = input("%d Function Please:"% (value))
+		function = input("Function %d Please:"% (value))
 		correct = syntax_check(function)
 		if correct == -1:
 			print("Function %d will not be plotted." % (value))
