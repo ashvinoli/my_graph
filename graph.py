@@ -8,6 +8,14 @@ import sys
 pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arccosh|arctanh"
 pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)"
 pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)"
+pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
+
+def sign_check(string):
+	#print(string)
+	for i in range((len(string)-1)):
+		if re.match(pattern_signs_no_brackets,string[i]) and re.match(pattern_signs_no_brackets,string[i+1]):
+			return -1 	
+
 
 def eval_arr(x_arr,function):
 	output = np.array([])
@@ -29,7 +37,8 @@ def plot_function(function,value = 1,status='d',begin=0,end=2*math.pi,interval=1
 		plt.grid(True)
 	elif status == 's':
 		plt.plot(x,y,label=function)
-		plt.legend()
+		plt.legend()		
+		plt.grid(True)
 	else:
 		print("Wrong status argument.")
 	#plt.xlabel('x')
@@ -64,17 +73,25 @@ def trig_equal_parent(string):
 	
 	
 def syntax_check(string):
+	if string == "()":
+		print("Empty function")
+		return -1
+	
+	sign_error = sign_check(string)
+	if sign_error == -1:
+		print("Syntax error. No consequetive operators allowed. Check the operators.")
+		return -1
+
 	cnt_parent = count_parent(string)
 	if cnt_parent == -1:
 		print("Unmatched Parenthesis!")
 		return -1
+
 	total_matched = trig_equal_parent(string)
 	if total_matched==-1:
 		print("Put parenthesis after every sin, cos, tan..... like sin(x) or sin(sin(x))....")
 		return -1
-	if string == "()":
-		print("Empty function")
-		return -1
+	
 	return 0
 		
 
@@ -92,13 +109,13 @@ def main_input():
 	check = 1
 	value = 1
 	if (len(sys.argv) == 1):
-		print("No arguments passes. Please pass 's' or 'd' as arguments")
+		print("No arguments passed. Please pass 's' or 'd' as arguments.")
 		return -1
 
 	status = sys.argv[1].lower()
 
 	if not(status =='d' or status =='s'):
-		print("Wrong arguments passed. Please pass 's' or 'd' as arguments")
+		print("Wrong arguments passed. Please pass 's' or 'd' as arguments.")
 		return -1
 	
 	while check:

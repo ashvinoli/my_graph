@@ -248,7 +248,9 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(z)
 			elif i == 'e':
 				output_queue.append(math.e)
-		
+			else:
+				print("Unknown Variable '%c' uncountered!" % (i))
+				return -1
 			
 	return output_queue[0]	
 	
