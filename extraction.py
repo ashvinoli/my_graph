@@ -49,7 +49,7 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(round((math.sin(number)),8))
 			elif re.match(pattern_trig_cos,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(round((math.cos(number),8)))			
+				output_queue.append(round(math.cos(number),8))			
 			elif re.match(pattern_trig_tan,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
 				output_queue.append(round((math.tan(number)),8))	
