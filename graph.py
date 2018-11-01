@@ -10,6 +10,24 @@ pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)"
 pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)"
 pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
 
+def bracket_check(string):
+	slight_tokens=[]
+	while len(string) >0:
+		if re.match(pattern_trig_general,string):
+			matches = re.findall(pattern_trig_general,string)			
+			slight_tokens.append(matches[0])
+			string = string[len(matches[0]):]
+		else:
+			slight_tokens.append(string[:1])
+			string = string[1:]
+
+	for i in range(len(slight_tokens)-1):
+		if re.match(pattern_trig_general,slight_tokens[i]):
+			if not(re.match("\(",slight_tokens[i+1])):
+				return -1
+
+	
+
 def sign_check(string):
 	#print(string)
 	for i in range((len(string)-1)):
@@ -27,7 +45,7 @@ def eval_arr(x_arr,function):
 	return output
 
 
-def plot_function(function,value = 1,status='d',begin=0,end=2*math.pi,interval=100):
+def plot_function(function,value = 1,status='d',begin=-2*math.pi,end=2*math.pi,interval=100):
 	x = np.linspace(begin,end,interval)
 	y = eval_arr(x,function)
 	if status=='d':
@@ -80,6 +98,11 @@ def syntax_check(string):
 	sign_error = sign_check(string)
 	if sign_error == -1:
 		print("Syntax error. No consequetive operators allowed. Check the operators.")
+		return -1
+	
+	bracket = bracket_check(string)
+	if bracket == -1:
+		print("Please put bracket aroung variable as in sin(x) not sinx!")
 		return -1
 
 	cnt_parent = count_parent(string)
@@ -137,6 +160,7 @@ def main_input():
 	show_all()	
 		
 main_input()
+
 
 
 
