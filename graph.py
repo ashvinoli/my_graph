@@ -72,7 +72,7 @@ def syntax_check(string):
 	if total_matched==-1:
 		print("Put parenthesis after every sin, cos, tan..... like sin(x) or sin(sin(x))....")
 		return -1
-	if string == "":
+	if string == "()":
 		print("Empty function")
 		return -1
 	return 0
@@ -82,6 +82,11 @@ def syntax_check(string):
 def show_all():
 	#plt.legend()
 	plt.show()
+
+
+def add_brackets(string):
+	string = "("+string+")"
+	return string
 
 def main_input():
 	check = 1
@@ -98,6 +103,9 @@ def main_input():
 	
 	while check:
 		function = input("Function %d Please:"% (value))
+		#print(function)
+		function = add_brackets(function)
+		#print(function)
 		correct = syntax_check(function)
 		if correct == -1:
 			print("Function %d will not be plotted." % (value))
