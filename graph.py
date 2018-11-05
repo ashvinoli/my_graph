@@ -47,9 +47,9 @@ def eval_arr(x_arr,function):
 	return output
 
 
-def plot_function(function,value = 1,status='d',begin=0,end=2*math.pi,interval=100):
+def plot_function(function,value = 1,status='d',begin=-2*math.pi,end=2*math.pi,step = 0.2):
 	global fig
-	x = np.linspace(begin,end,interval)
+	x = np.arange(begin,end,step)
 	y = eval_arr(x,function)
 	if status=='d':
 		a = fig.add_subplot(2,2,value)
@@ -165,13 +165,13 @@ def main_input():
 			check = 0
 	#show_all()	
 
-def check_and_plot(function,value,status):
+def check_and_plot(function,value,status="s",range_x_init=-2*math.pi,range_x_final = 2*math.pi):
 	function = add_brackets(function)
 	correct = syntax_check(function)
 	if correct == -1:
 		print("Function will not be plotted")
 	else:
-		plot_function(function, value, status)
+		plot_function(function, value, status,range_x_init,range_x_final)
 			
 #main_input()
 
