@@ -1,6 +1,7 @@
 from extraction import evaluate_exp as e_exp
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import math
 import re
 import sys
@@ -9,6 +10,7 @@ pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arc
 pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)"
 pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)"
 pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
+fig  = Figure(figsize = (5,4),dpi=100)
 
 def bracket_check(string):
 	slight_tokens=[]
@@ -45,18 +47,21 @@ def eval_arr(x_arr,function):
 	return output
 
 
-def plot_function(function,value = 1,status='d',begin=-2*math.pi,end=2*math.pi,interval=100):
+def plot_function(function,value = 1,status='d',begin=0,end=2*math.pi,interval=100):
+	global fig
 	x = np.linspace(begin,end,interval)
 	y = eval_arr(x,function)
 	if status=='d':
-		plt.subplot(2,2,value)
-		plt.plot(x,y,label=function) #k signigies the color of line
-		plt.title(function)	
-		plt.grid(True)
+		a = fig.add_subplot(2,2,value)
+		#plt.subplot(2,2,value)
+		a.plot(x,y,label=function) #k signigies the color of line
+		a.title(function)	
+		a.grid(True)
 	elif status == 's':
-		plt.plot(x,y,label=function)
-		plt.legend()		
-		plt.grid(True)
+		a = fig.add_subplot(111)
+		a.plot(x,y,label=function)
+		a.legend()		
+		a.grid(True)
 	else:
 		print("Wrong status argument.")
 	#plt.xlabel('x')
@@ -120,8 +125,9 @@ def syntax_check(string):
 
 
 def show_all():
+	global fig
 	#plt.legend()
-	plt.show()
+	fig.show()
 
 
 def add_brackets(string):
@@ -157,9 +163,17 @@ def main_input():
 		print("\n")
 		if resp == 'n' or resp == 'no':
 			check = 0
-	show_all()	
-		
-main_input()
+	#show_all()	
+
+def check_and_plot(function,value,status):
+	function = add_brackets(function)
+	correct = syntax_check(function)
+	if correct == -1:
+		print("Function will not be plotted")
+	else:
+		plot_function(function, value, status)
+			
+#main_input()
 
 
 
