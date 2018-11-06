@@ -163,7 +163,7 @@ def main_input():
 		print("\n")
 		if resp == 'n' or resp == 'no':
 			check = 0
-	#show_all()	
+	show_all()	
 
 def check_and_plot(function,value,status="s",range_x_init=-2*math.pi,range_x_final = 2*math.pi):
 	function = add_brackets(function)
