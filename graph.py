@@ -55,7 +55,7 @@ def plot_function(function,value = 1,status='d',begin=-2*math.pi,end=2*math.pi,s
 		a = fig.add_subplot(2,2,value)
 		#plt.subplot(2,2,value)
 		a.plot(x,y,label=function) #k signigies the color of line
-		a.title(function)	
+		a.set_title(function)	
 		a.grid(True)
 	elif status == 's':
 		a = fig.add_subplot(111)
