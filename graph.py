@@ -102,7 +102,7 @@ def syntax_check(string):
 	if string == "()":
 		err_log.append("Empty function")
 		return -1
-	
+
 	sign_error = sign_check(string)
 	if sign_error == -1:
 		err_log.append("Syntax error.Check the operators.")
@@ -110,7 +110,7 @@ def syntax_check(string):
 	
 	bracket = bracket_check(string)
 	if bracket == -1:
-		err_log.append("Please put bracket aroung variable as in sin(x) not sinx!")
+		err_log.append("Trig Syntax Error.")
 		return -1
 
 	cnt_parent = count_parent(string)

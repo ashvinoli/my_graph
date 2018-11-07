@@ -61,7 +61,10 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #reme
 		err_message = ""
 		for i in err_log:
 			err_message = err_message + " " + i
-		my_label.set_label(core_error[len(core_error)-1] +"  "+err_message)
+		if len(core_error) > 0:
+			my_label.set_label(core_error[len(core_error)-1] +"  "+err_message)
+		else:
+			my_label.set_label(err_message)
 	else:
 		my_label.set_label("No Errors. Function Successfully Plotted!")
 	win.queue_draw() #This shit redraws the window. To redraw any widget just replace the win withe the widget
@@ -75,6 +78,7 @@ win = Gtk.Window()
 win.connect("delete-event",Gtk.main_quit)
 #win.set_default_size(800,600)
 win.set_title("My very first GUI graph")
+win.set_position(Gtk.WindowPosition.CENTER)
 
 
 #Three boxes. One main Vertical will contain the horizontal ones. Two horizontal and a canvas and the final horiz will be vertically placed on the vertical box
@@ -134,7 +138,7 @@ v_box_horiz_2.pack_start(btn_diff,True,True,0)
 sw = Gtk.ScrolledWindow()
 #v_box_vert.pack_start(sw,True,True,0)
 canvas = FigureCanvas(fig)
-canvas.set_size_request(700,500)
+canvas.set_size_request(900,500)
 v_box_vert.pack_start(canvas,True,True,0)
 #sw.add_with_viewport(canvas)
 #sw.set_border_width(20)
