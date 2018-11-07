@@ -3,6 +3,7 @@ gi.require_version('Gtk','3.0') #insure that the gtk version is 3
 from gi.repository import Gtk
 from graph import fig, check_and_plot
 from matplotlib.backends.backend_gtk3agg import (FigureCanvasGTK3Agg as FigureCanvas)
+import math
 
 #Global Variables' declaration
 counter=0
@@ -10,23 +11,26 @@ status = False #this variable keeps track of whether to plot on same or differen
 function_list = [] #list to hold all the functions that have been requested for plot
 
 def func_toggle(widget):
-	global fig, counter, scale #must code
-	value = scale.get_value()
-	value = 1/value
+	global fig, counter, scale,scale_range #must code
+	step_value = scale.get_value()
+	range_value = scale_range.get_value()
+	step_value = 1/step_value
 	fig.clf()
 	counter = 0
 	for i in function_list:
-		clicked("",i,value)
+		clicked("",i,range_value,step_value)
 	
 
 def reset_func(widget):
-	global counter, function_list
+	global counter, function_list,scale,scale_range
+	scale.set_value(5)
+	scale_range.set_value(2*math.pi)
 	function_list = []
 	fig.clf()
 	counter = 0
 	win.queue_draw()
 
-def clicked(widget,function = "",value=0.02): #remember that any callback function take the widget calling as their parameter
+def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #remember that any callback function take the widget calling as their parameter
 	global counter, status, btn_same, btn_diff,function_list
 	if widget != "":
 		function_list.append(func_input.get_text())
@@ -45,9 +49,9 @@ def clicked(widget,function = "",value=0.02): #remember that any callback functi
 		string = "d"
 		counter += 1
 	if widget !="":
-		check_and_plot(str(func_input.get_text()),counter,string,step = value)
+		check_and_plot(str(func_input.get_text()),counter,string,-1*range_value,range_value,step_value)
 	else:
-		check_and_plot(function,counter,string,step = value)
+		check_and_plot(function,counter,string,-1*range_value,range_value,step = step_value)
 	win.queue_draw() #This shit redraws the window. To redraw any widget just replace the win withe the widget
 	#print(func_input.get_text())
 	#print(function_list)
@@ -63,7 +67,8 @@ win.set_title("My very first GUI graph")
 v_box_horiz = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_2 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_3 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
-v_box_horiz_b_3 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
+v_box_horiz_smoothness = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
+v_box_horiz_range = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_vert = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing = 0)
 v_box_vert.pack_start(v_box_horiz,True,True,0)
 v_box_vert.pack_start(v_box_horiz_2,True,True,0)
@@ -75,8 +80,11 @@ v_box_horiz.pack_start(func_input,True,True,0)
 #Error display and oli rocks label or just LABELS
 my_label = Gtk.Label()
 sens_label = Gtk.Label()
-sens_label.set_label("Sensitivity:")
-v_box_horiz_b_3.pack_start(sens_label,False,False,0)
+sens_label.set_label("Smoothness:")
+range_label = Gtk.Label()
+range_label.set_label("Range (-value to + value):")
+v_box_horiz_range.pack_start(range_label,False,False,0)
+v_box_horiz_smoothness.pack_start(sens_label,False,False,0)
 my_label.set_label("No copyright. Do whatever with this shit because OPENSOURCE and ASHVIN ROCK!")
 v_box_horiz_3.pack_end(my_label,False,False,0)
 
@@ -88,7 +96,7 @@ v_box_horiz.pack_start(plot,True,True,0)
 
 #clear button
 reset = Gtk.Button()
-reset.set_label("Clear")
+reset.set_label("Reset")
 reset.connect("clicked",reset_func)
 v_box_horiz.pack_start(reset,True,True,0)
 
@@ -118,15 +126,22 @@ v_box_vert.pack_start(canvas,True,True,0)
 
 
 
-#Add scale to take sensitivity as input
+#Add scale to take sensitivity and range as input
 ad1 = Gtk.Adjustment(10,0,100,1,50,0)
+ad2 = Gtk.Adjustment(2*math.pi,0,100,1,1,0)
 scale = Gtk.Scale(orientation = Gtk.Orientation.HORIZONTAL,adjustment = ad1)
+scale.set_value(5)
+scale_range = Gtk.Scale(orientation = Gtk.Orientation.HORIZONTAL,adjustment = ad2)
+scale_range.connect("value-changed",func_toggle)
+scale_range.set_value(2*math.pi)
 scale.connect("value-changed",func_toggle)
 #scale.set_label("Sensitivity")
-v_box_horiz_b_3.pack_start(scale,True,True,0)
+v_box_horiz_range.pack_start(scale_range,True,True,0)
+v_box_horiz_smoothness.pack_start(scale,True,True,0)
 
 #add vbox3 and b_3 at the end after canvas
-v_box_vert.pack_start(v_box_horiz_b_3,True,True,0)
+v_box_vert.pack_start(v_box_horiz_smoothness,True,True,0)
+v_box_vert.pack_start(v_box_horiz_range,True,True,0)
 v_box_vert.pack_start(v_box_horiz_3,True,True,0)
 
 
