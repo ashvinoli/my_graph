@@ -3,6 +3,7 @@ gi.require_version('Gtk','3.0') #insure that the gtk version is 3
 from gi.repository import Gtk, Gdk
 from graph import fig, check_and_plot
 from graph import err_log
+from extraction import core_error
 from matplotlib.backends.backend_gtk3agg import (FigureCanvasGTK3Agg as FigureCanvas)
 import math
 
@@ -29,6 +30,7 @@ def reset_func(widget):
 	scale_range.set_value(2*math.pi)
 	function_list = []
 	err_log.clear()
+	core_error.clear()
 	fig.clf()
 	counter = 0
 	win.queue_draw()
@@ -55,15 +57,16 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #reme
 		check_and_plot(str(func_input.get_text()),counter,string,-1*range_value,range_value,step_value)
 	else:
 		check_and_plot(function,counter,string,-1*range_value,range_value,step = step_value)
-	if len(err_log) > 0:
+	if len(err_log) > 0 or len(core_error)>0:
 		err_message = ""
 		for i in err_log:
 			err_message = err_message + " " + i
-		my_label.set_label(err_message)
+		my_label.set_label(core_error[len(core_error)-1] +"  "+err_message)
 	else:
 		my_label.set_label("No Errors. Function Successfully Plotted!")
 	win.queue_draw() #This shit redraws the window. To redraw any widget just replace the win withe the widget
 	err_log.clear()
+	core_error.clear()
 	#print(func_input.get_text())
 	#print(function_list)
 

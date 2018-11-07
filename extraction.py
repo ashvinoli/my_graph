@@ -2,7 +2,7 @@ import re
 from collections import deque
 import math
 
-
+core_error = []
 #global declaration of patterns
 pattern_num = r"[0-9]+\.?[0-9]*"
 pattern_negative_num = r"\-{0,1}[0-9]+\.?[0-9]*"
@@ -58,21 +58,21 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 					number = float(re.findall(pattern_negative_num,i)[0])
 					output_queue.append(round((math.log10(number)),8))	
 				except:
-					print("Error. Did you try to find log of 0 or negative numbers?")
+					core_error.append("Error. Did you try to find log of 0 or negative numbers?")
 					return -1
 			elif re.match(pattern_trig_ln,i):
 				try:
 					number = float(re.findall(pattern_negative_num,i)[0])
 					output_queue.append(round((math.log(number)),8))	
 				except:
-					print("Error. Did you try to find ln of 0 or negative numbers?")
+					core_error.append("Error. Did you try to find ln of 0 or negative numbers?")
 					return -1
 			elif re.match(pattern_trig_arcsin,i):
 				try:
 					number = float(re.findall(pattern_negative_num,i)[0])
 					output_queue.append(round((math.asin(number)),8))	
 				except:
-					print("Arcsin's input out of range (-1,1)")
+					core_error.append("Arcsin's input out of range (-1,1)")
 					return -1
 			elif re.match(pattern_trig_arccos,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
@@ -102,14 +102,14 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				try:
 					output_queue.append(round((math.log10(x)),8))
 				except:
-					print("Error. Did you try log of 0 or negative numbers?")
+					core_error.append("Error. Did you try log of 0 or negative numbers?")
 					return -1
 			elif i =="ln(x)":
 				#output_queue.append(round((math.log(x)),8))
 				try:
 					output_queue.append(round((math.log(x)),8))
 				except:
-					print("Error. Did you try ln of 0 or negative numbers?")
+					core_error.append("Error. Did you try ln of 0 or negative numbers?")
 					return -1
 			elif i == "arcsin(x)":
 				output_queue.append(round((math.asin(x)),8))
@@ -228,7 +228,7 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				try:
 					output_queue.append(first/second)
 				except:
-					print("Error. Perhaps division by zero attempt")
+					core_error.append("Error. Perhaps division by zero attempt")
 					return -1
 			elif i=='^':
 				second = output_queue.pop()
@@ -249,7 +249,7 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 			elif i == 'e':
 				output_queue.append(math.e)
 			else:
-				print("Unknown Variable '%c' uncountered!" % (i),end = '\r')
+				core_error.append("Unknown Variable \""+i+"\" uncountered. Returning -1..")
 				return -1
 			
 	return output_queue[0]	
@@ -362,7 +362,7 @@ def match_paren(string):
 			break
 	
 	if counter !=0:
-		print("No matching prenthesis.")
+		core_error = "No matching prenthesis."
 		return -1			
 	return extracted
 
