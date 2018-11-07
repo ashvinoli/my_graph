@@ -165,13 +165,13 @@ def main_input():
 			check = 0
 	show_all()	
 
-def check_and_plot(function,value,status="s",range_x_init=-2*math.pi,range_x_final = 2*math.pi):
+def check_and_plot(function,value,status="s",range_x_init=-2*math.pi,range_x_final = 2*math.pi,step=0.2):
 	function = add_brackets(function)
 	correct = syntax_check(function)
 	if correct == -1:
 		print("Function will not be plotted")
 	else:
-		plot_function(function, value, status,range_x_init,range_x_final)
+		plot_function(function, value, status,range_x_init,range_x_final,step)
 			
 #main_input()
 
