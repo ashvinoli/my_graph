@@ -10,8 +10,9 @@ pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arc
 pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)"
 pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)"
 pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
+pattern_signs_end = r"[\+,\-,\*,%,\^,/]$"
 fig  = Figure(figsize = (5,4),dpi=100)
-
+err_log =[] #to report errors
 def bracket_check(string):
 	slight_tokens=[]
 	while len(string) >0:
@@ -32,6 +33,8 @@ def bracket_check(string):
 
 def sign_check(string):
 	#print(string)
+	if re.match(pattern_signs_end,string[len(string)-2]):
+		return -1
 	for i in range((len(string)-1)):
 		if re.match(pattern_signs_no_brackets,string[i]) and re.match(pattern_signs_no_brackets,string[i+1]):
 			return -1 	
@@ -97,27 +100,27 @@ def trig_equal_parent(string):
 	
 def syntax_check(string):
 	if string == "()":
-		print("Empty function")
+		err_log.append("Empty function")
 		return -1
 	
 	sign_error = sign_check(string)
 	if sign_error == -1:
-		print("Syntax error. No consequetive operators allowed. Check the operators.")
+		err_log.append("Syntax error.Check the operators.")
 		return -1
 	
 	bracket = bracket_check(string)
 	if bracket == -1:
-		print("Please put bracket aroung variable as in sin(x) not sinx!")
+		err_log.append("Please put bracket aroung variable as in sin(x) not sinx!")
 		return -1
 
 	cnt_parent = count_parent(string)
 	if cnt_parent == -1:
-		print("Unmatched Parenthesis!")
+		err_log.append("Unmatched Parenthesis!")
 		return -1
 
 	total_matched = trig_equal_parent(string)
 	if total_matched==-1:
-		print("Put parenthesis after every sin, cos, tan..... like sin(x) or sin(sin(x))....")
+		err_log.append("Put parenthesis after every sin, cos, tan..... like sin(x) or sin(sin(x))....")
 		return -1
 	
 	return 0
@@ -154,7 +157,7 @@ def main_input():
 		#print(function)
 		correct = syntax_check(function)
 		if correct == -1:
-			print("Function %d will not be plotted." % (value))
+			err_log.append("Function %d will not be plotted." % (value))
 		else:
 			plot_function(function,value,status)
 			value += 1
@@ -169,7 +172,7 @@ def check_and_plot(function,value,status="s",range_x_init=-2*math.pi,range_x_fin
 	function = add_brackets(function)
 	correct = syntax_check(function)
 	if correct == -1:
-		print("Function will not be plotted")
+		err_log.append("Function will not be plotted")
 	else:
 		plot_function(function, value, status,range_x_init,range_x_final,step)
 			
