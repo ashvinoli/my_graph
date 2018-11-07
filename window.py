@@ -5,15 +5,27 @@ from graph import fig, check_and_plot
 from matplotlib.backends.backend_gtk3agg import (FigureCanvasGTK3Agg as FigureCanvas)
 counter=0
 status = False #this variable keeps track of whether to plot on same or different plots. If true it is on same, else on different
+function_list = [] #list to hold all the functions that have been requested for plot
+
+def func_toggle(widget):
+	global fig, counter #must code
+	fig.clf()
+	counter = 0
+	for i in function_list:
+		clicked("",i)
+	
 
 def reset_func(widget):
-	global counter
+	global counter, function_list
+	function_list = []
 	fig.clf()
 	counter = 0
 	win.queue_draw()
 
-def clicked(widget): #remember that any callback function take the widget calling as their parameter
-	global counter, status, btn_same, btn_diff
+def clicked(widget,function = ""): #remember that any callback function take the widget calling as their parameter
+	global counter, status, btn_same, btn_diff,function_list
+	if widget != "":
+		function_list.append(func_input.get_text())
 	string = ""
 	if btn_diff.get_active() == True:
 		status = True
@@ -27,10 +39,13 @@ def clicked(widget): #remember that any callback function take the widget callin
 	else:
 		string = "d"
 		counter += 1
-	
-	check_and_plot(str(func_input.get_text()),counter,string)
+	if widget !="":
+		check_and_plot(str(func_input.get_text()),counter,string)
+	else:
+		check_and_plot(function,counter,string)
 	win.queue_draw() #This shit redraws the window. To redraw any widget just replace the win withe the widget
 	#print(func_input.get_text())
+	#print(function_list)
 
 #main window
 win = Gtk.Window()
@@ -70,9 +85,12 @@ v_box_horiz.pack_start(reset,True,True,0)
 btn_same = Gtk.RadioButton.new_with_label_from_widget(None,"Same") #I really don't don what that new... does
 #print(dir(btn_same.props))
 btn_same.set_label("Plot on Same Graph")
-btn_diff = Gtk.RadioButton.new_from_widget(btn_same) #Same goes here.....
+btn_diff = Gtk.RadioButton.new_from_widget(btn_same) #Doing this places btn_diff on the same group as btn_same. That way only one radio button can be active at a time.....
 btn_diff.set_label("Plot on Different Graphs")
 btn_same.get_active()
+#button connects
+btn_same.connect("toggled",func_toggle)
+btn_diff.connect("toggled",func_toggle)
 #insert these buttons in the v_box_horiz_2
 v_box_horiz_2.pack_start(btn_same,True,True,0)
 v_box_horiz_2.pack_start(btn_diff,True,True,0)
