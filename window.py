@@ -3,6 +3,8 @@ gi.require_version('Gtk','3.0') #insure that the gtk version is 3
 from gi.repository import Gtk
 from graph import fig, check_and_plot
 from matplotlib.backends.backend_gtk3agg import (FigureCanvasGTK3Agg as FigureCanvas)
+
+#Global Variables' declaration
 counter=0
 status = False #this variable keeps track of whether to plot on same or different plots. If true it is on same, else on different
 function_list = [] #list to hold all the functions that have been requested for plot
@@ -56,7 +58,7 @@ win.connect("delete-event",Gtk.main_quit)
 win.set_title("My very first GUI graph")
 
 
-#Three boxes. One main Vertical will contain the horizontal ones. Two horizontal and a canvas will be vertically placed on the vertical box
+#Three boxes. One main Vertical will contain the horizontal ones. Two horizontal and a canvas and the final horiz will be vertically placed on the vertical box
 v_box_horiz = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_2 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_3 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
