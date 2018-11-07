@@ -24,8 +24,10 @@ def reset_func(widget):
 
 def clicked(widget,function = ""): #remember that any callback function take the widget calling as their parameter
 	global counter, status, btn_same, btn_diff,function_list
+
 	if widget != "":
 		function_list.append(func_input.get_text())
+
 	string = ""
 	if btn_diff.get_active() == True:
 		status = True
@@ -57,6 +59,7 @@ win.set_title("My very first GUI graph")
 #Three boxes. One main Vertical will contain the horizontal ones. Two horizontal and a canvas will be vertically placed on the vertical box
 v_box_horiz = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_2 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
+v_box_horiz_3 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_vert = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing = 0)
 v_box_vert.pack_start(v_box_horiz,True,True,0)
 v_box_vert.pack_start(v_box_horiz_2,True,True,0)
@@ -65,8 +68,10 @@ v_box_vert.pack_start(v_box_horiz_2,True,True,0)
 func_input = Gtk.Entry()
 v_box_horiz.pack_start(func_input,True,True,0)
 
-#Error display label
-
+#Error display and oli rocks label
+my_label = Gtk.Label()
+my_label.set_label("No copyright. Do whatever with this shit because OPENSOURCE and ASHVIN ROCK!")
+v_box_horiz_3.pack_end(my_label,False,False,0)
 
 #Plot Button
 plot = Gtk.Button()
@@ -99,10 +104,13 @@ v_box_horiz_2.pack_start(btn_diff,True,True,0)
 sw = Gtk.ScrolledWindow()
 #v_box_vert.pack_start(sw,True,True,0)
 canvas = FigureCanvas(fig)
-canvas.set_size_request(600,500)
+canvas.set_size_request(700,500)
 v_box_vert.pack_start(canvas,True,True,0)
 #sw.add_with_viewport(canvas)
 #sw.set_border_width(20)
+
+#add vbox3 at the end
+v_box_vert.pack_start(v_box_horiz_3,True,True,0)
 
 
 #managing properties of main window and adding widgets that have been defined above
