@@ -10,11 +10,13 @@ status = False #this variable keeps track of whether to plot on same or differen
 function_list = [] #list to hold all the functions that have been requested for plot
 
 def func_toggle(widget):
-	global fig, counter #must code
+	global fig, counter, scale #must code
+	value = scale.get_value()
+	value = 1/value
 	fig.clf()
 	counter = 0
 	for i in function_list:
-		clicked("",i)
+		clicked("",i,value)
 	
 
 def reset_func(widget):
@@ -24,9 +26,8 @@ def reset_func(widget):
 	counter = 0
 	win.queue_draw()
 
-def clicked(widget,function = ""): #remember that any callback function take the widget calling as their parameter
+def clicked(widget,function = "",value=0.02): #remember that any callback function take the widget calling as their parameter
 	global counter, status, btn_same, btn_diff,function_list
-
 	if widget != "":
 		function_list.append(func_input.get_text())
 
@@ -44,9 +45,9 @@ def clicked(widget,function = ""): #remember that any callback function take the
 		string = "d"
 		counter += 1
 	if widget !="":
-		check_and_plot(str(func_input.get_text()),counter,string)
+		check_and_plot(str(func_input.get_text()),counter,string,step = value)
 	else:
-		check_and_plot(function,counter,string)
+		check_and_plot(function,counter,string,step = value)
 	win.queue_draw() #This shit redraws the window. To redraw any widget just replace the win withe the widget
 	#print(func_input.get_text())
 	#print(function_list)
@@ -62,6 +63,7 @@ win.set_title("My very first GUI graph")
 v_box_horiz = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_2 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_3 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
+v_box_horiz_b_3 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 1)
 v_box_vert = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing = 0)
 v_box_vert.pack_start(v_box_horiz,True,True,0)
 v_box_vert.pack_start(v_box_horiz_2,True,True,0)
@@ -70,8 +72,11 @@ v_box_vert.pack_start(v_box_horiz_2,True,True,0)
 func_input = Gtk.Entry()
 v_box_horiz.pack_start(func_input,True,True,0)
 
-#Error display and oli rocks label
+#Error display and oli rocks label or just LABELS
 my_label = Gtk.Label()
+sens_label = Gtk.Label()
+sens_label.set_label("Sensitivity:")
+v_box_horiz_b_3.pack_start(sens_label,False,False,0)
 my_label.set_label("No copyright. Do whatever with this shit because OPENSOURCE and ASHVIN ROCK!")
 v_box_horiz_3.pack_end(my_label,False,False,0)
 
@@ -111,7 +116,17 @@ v_box_vert.pack_start(canvas,True,True,0)
 #sw.add_with_viewport(canvas)
 #sw.set_border_width(20)
 
-#add vbox3 at the end
+
+
+#Add scale to take sensitivity as input
+ad1 = Gtk.Adjustment(10,0,100,1,50,0)
+scale = Gtk.Scale(orientation = Gtk.Orientation.HORIZONTAL,adjustment = ad1)
+scale.connect("value-changed",func_toggle)
+#scale.set_label("Sensitivity")
+v_box_horiz_b_3.pack_start(scale,True,True,0)
+
+#add vbox3 and b_3 at the end after canvas
+v_box_vert.pack_start(v_box_horiz_b_3,True,True,0)
 v_box_vert.pack_start(v_box_horiz_3,True,True,0)
 
 
