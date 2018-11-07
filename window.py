@@ -77,7 +77,7 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #reme
 win = Gtk.Window()
 win.connect("delete-event",Gtk.main_quit)
 #win.set_default_size(800,600)
-win.set_title("My very first GUI graph")
+win.set_title("Graph A")
 win.set_position(Gtk.WindowPosition.CENTER)
 
 
@@ -99,7 +99,7 @@ v_box_horiz.pack_start(func_input,True,True,0)
 my_label = Gtk.Label()
 my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(1.0,0,0,1))
 sens_label = Gtk.Label()
-sens_label.set_label("Smoothness:")
+sens_label.set_label("Sampling rate/unit x:")
 range_label = Gtk.Label()
 range_label.set_label("Range (-value to + value):")
 v_box_horiz_range.pack_start(range_label,False,False,0)
@@ -146,7 +146,7 @@ v_box_vert.pack_start(canvas,True,True,0)
 
 
 #Add scale to take sensitivity and range as input
-ad1 = Gtk.Adjustment(10,0,100,1,50,0)
+ad1 = Gtk.Adjustment(10,1,100,1,50,0)
 ad2 = Gtk.Adjustment(2*math.pi,0,100,1,1,0)
 scale = Gtk.Scale(orientation = Gtk.Orientation.HORIZONTAL,adjustment = ad1)
 scale.set_value(5)

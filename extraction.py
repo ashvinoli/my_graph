@@ -58,14 +58,14 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 					number = float(re.findall(pattern_negative_num,i)[0])
 					output_queue.append(round((math.log10(number)),8))	
 				except:
-					core_error.append("Error. Did you try to find log of 0 or negative numbers?")
+					core_error.append("Log of 0 and negative numbers doesn't exist, but has been set to -1")
 					return -1
 			elif re.match(pattern_trig_ln,i):
 				try:
 					number = float(re.findall(pattern_negative_num,i)[0])
 					output_queue.append(round((math.log(number)),8))	
 				except:
-					core_error.append("Error. Did you try to find ln of 0 or negative numbers?")
+					core_error.append("ln of 0 and negative numbers doesn't exist, but has been set to -1")
 					return -1
 			elif re.match(pattern_trig_arcsin,i):
 				try:
@@ -102,14 +102,14 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				try:
 					output_queue.append(round((math.log10(x)),8))
 				except:
-					core_error.append("Error. Did you try log of 0 or negative numbers?")
+					core_error.append("Log of 0 or negative numbers attempted. -1 will be returned")
 					return -1
 			elif i =="ln(x)":
 				#output_queue.append(round((math.log(x)),8))
 				try:
 					output_queue.append(round((math.log(x)),8))
 				except:
-					core_error.append("Error. Did you try ln of 0 or negative numbers?")
+					core_error.append("Log of 0 or negative numbers attempted. -1 will be returned")
 					return -1
 			elif i == "arcsin(x)":
 				output_queue.append(round((math.asin(x)),8))
@@ -228,7 +228,7 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				try:
 					output_queue.append(first/second)
 				except:
-					core_error.append("Error. Perhaps division by zero attempt")
+					core_error.append("Division by zero attempt. -1 returned.")
 					return -1
 			elif i=='^':
 				second = output_queue.pop()
