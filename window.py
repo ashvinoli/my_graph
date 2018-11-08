@@ -25,6 +25,7 @@ def func_toggle(widget):
 
 def reset_func(widget):
 	global counter, function_list,scale,scale_range,my_label
+	my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(0,0,1,1))
 	my_label.set_label("----RESET-----")
 	scale.set_value(5)
 	scale_range.set_value(2*math.pi)
@@ -38,7 +39,7 @@ def reset_func(widget):
 def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #remember that any callback function take the widget calling as their parameter
 	global counter, status, btn_same, btn_diff,function_list,my_label
 	if widget != "":
-		function_list.append(func_input.get_text())
+		function_list.append(func_input.get_text().lower())
 
 	string = ""
 	if btn_diff.get_active() == True:
@@ -54,10 +55,11 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #reme
 		string = "d"
 		counter += 1
 	if widget !="":
-		check_and_plot(str(func_input.get_text()),counter,string,-1*range_value,range_value,step_value)
+		check_and_plot(str(func_input.get_text().lower()),counter,string,-1*range_value,range_value,step_value)
 	else:
 		check_and_plot(function,counter,string,-1*range_value,range_value,step = step_value)
 	if len(err_log) > 0 or len(core_error)>0:
+		my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(1,0,0,1))
 		err_message = ""
 		for i in err_log:
 			err_message = err_message + " " + i
@@ -66,6 +68,7 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #reme
 		else:
 			my_label.set_label(err_message)
 	else:
+		my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(0,1,0,1))
 		my_label.set_label("No Errors. Function Successfully Plotted!")
 	win.queue_draw() #This shit redraws the window. To redraw any widget just replace the win withe the widget
 	err_log.clear()
@@ -97,7 +100,7 @@ v_box_horiz.pack_start(func_input,True,True,0)
 
 #Error display and oli rocks label or just LABELS
 my_label = Gtk.Label()
-my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(1.0,0,0,1))
+my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(0.3,0.5,0.7,1))
 sens_label = Gtk.Label()
 sens_label.set_label("Sampling rate/unit x:")
 range_label = Gtk.Label()

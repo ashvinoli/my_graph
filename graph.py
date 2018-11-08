@@ -11,6 +11,7 @@ pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)"
 pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)"
 pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
 pattern_signs_end = r"[\+,\-,\*,%,\^,/]$"
+pattern_alpha = r"[a-z]"
 fig  = Figure(figsize = (5,4),dpi=100)
 err_log =[] #to report errors
 def bracket_check(string):
@@ -38,7 +39,9 @@ def sign_check(string):
 	for i in range((len(string)-1)):
 		if re.match(pattern_signs_no_brackets,string[i]) and re.match(pattern_signs_no_brackets,string[i+1]):
 			return -1 	
-
+	for i in range((len(string)-1)):
+		if re.match(pattern_alpha,string[i]) and re.match('\d',string[i+1]):
+			return -1 
 
 def eval_arr(x_arr,function):
 	output = np.array([])
@@ -105,12 +108,12 @@ def syntax_check(string):
 
 	sign_error = sign_check(string)
 	if sign_error == -1:
-		err_log.append("Syntax error.Check the operators.")
+		err_log.append("Syntax error.Check the operators, and operands positions. Perhaps parenthesis missing.")
 		return -1
 	
 	bracket = bracket_check(string)
 	if bracket == -1:
-		err_log.append("Trig Syntax Error.")
+		err_log.append("Trig Syntax Error. Perhaps parenthesis or variable missing.")
 		return -1
 
 	cnt_parent = count_parent(string)
