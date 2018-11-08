@@ -42,6 +42,10 @@ def clicked_namesake(widget):
 
 def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02,is3d = False): #remember that any callback function take the widget calling as their parameter
 	global counter, status, btn_same, btn_diff,function_list,my_label,scale,scale_range
+	step_value = scale.get_value()
+	range_value = scale_range.get_value()
+	step_value = 1/step_value
+
 	if is3d == False:
 		if widget != "":
 			function_list.append(func_input.get_text().lower())
@@ -67,9 +71,6 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02,is3d = 
 		else:
 			check_and_plot(function,counter,string,-1*range_value,range_value,step = step_value)
 	else:
-		step_value = scale.get_value()
-		range_value = scale_range.get_value()
-		step_value = 1/step_value
 		check_and_plot_3d(function,-1*range_value,range_value,step_value)
 
 	if len(err_log) > 0 or len(core_error)>0:
