@@ -81,7 +81,8 @@ def plot_function(function,value = 1,status='d',begin=-2*math.pi,end=2*math.pi,s
 	#plt.yscale('log')
 
 def plot_3d(function,begin = 0,end = 10,step = 1):
-	fig_3d = plt.figure()
+	fig_3d = plt.figure(function)
+	#fig_3d.title(function)
 	ax = fig_3d.gca(projection='3d')
 	x,y = np.meshgrid(np.arange(begin,end,step),np.arange(begin,end,step))
 	row,col = x.shape
@@ -204,7 +205,7 @@ def check_and_plot_3d(function,range_x_init=-2*math.pi,range_x_final = 2*math.pi
 	else:
 		plot_3d(function,range_x_init,range_x_final,step)
 
-main_input()
+#main_input()
 
 
 
