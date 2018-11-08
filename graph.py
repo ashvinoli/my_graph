@@ -2,6 +2,7 @@ from extraction import evaluate_exp as e_exp
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from mpl_toolkits.mplot3d import Axes3D
 import math
 import re
 import sys
@@ -12,7 +13,11 @@ pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)"
 pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
 pattern_signs_end = r"[\+,\-,\*,%,\^,/]$"
 pattern_alpha = r"[a-z]"
+
+#figures
 fig  = Figure(figsize = (5,4),dpi=100)
+
+
 err_log =[] #to report errors
 def bracket_check(string):
 	slight_tokens=[]
@@ -74,6 +79,18 @@ def plot_function(function,value = 1,status='d',begin=-2*math.pi,end=2*math.pi,s
 	#plt.ylabel('y')
 	#plt.xscale('linear')
 	#plt.yscale('log')
+
+def plot_3d(function,begin = 0,end = 10,step = 1):
+	fig_3d = plt.figure()
+	ax = fig_3d.gca(projection='3d')
+	x,y = np.meshgrid(np.arange(begin,end,step),np.arange(begin,end,step))
+	row,col = x.shape
+	z=np.zeros((row,col))
+	for i in range(row):
+		for j in range(col):
+			z[i,j] = e_exp(function,x[i,j],y[i,j])
+	ax.plot_surface(x,y,z)
+	plt.show()
 
 def count_parent(string):
 	total = 0
@@ -162,7 +179,7 @@ def main_input():
 		if correct == -1:
 			err_log.append("Function %d will not be plotted." % (value))
 		else:
-			plot_function(function,value,status)
+			plot_3d(function)
 			value += 1
 		print("\n")
 		resp = (input("Anymore function?:")).lower()
@@ -178,8 +195,16 @@ def check_and_plot(function,value,status="s",range_x_init=-2*math.pi,range_x_fin
 		err_log.append("Function will not be plotted")
 	else:
 		plot_function(function, value, status,range_x_init,range_x_final,step)
-			
-#main_input()
+
+def check_and_plot_3d(function,range_x_init=-2*math.pi,range_x_final = 2*math.pi,step=0.2):
+	function = add_brackets(function)
+	correct = syntax_check(function)
+	if correct == -1:
+		err_log.append("Function will not be plotted")
+	else:
+		plot_3d(function,range_x_init,range_x_final,step)
+
+main_input()
 
 
 

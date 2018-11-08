@@ -1,7 +1,7 @@
 import gi
 gi.require_version('Gtk','3.0') #insure that the gtk version is 3
 from gi.repository import Gtk, Gdk
-from graph import fig, check_and_plot
+from graph import fig, check_and_plot, check_and_plot_3d
 from graph import err_log
 from extraction import core_error
 from matplotlib.backends.backend_gtk3agg import (FigureCanvasGTK3Agg as FigureCanvas)
@@ -36,28 +36,42 @@ def reset_func(widget):
 	counter = 0
 	win.queue_draw()
 
-def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #remember that any callback function take the widget calling as their parameter
-	global counter, status, btn_same, btn_diff,function_list,my_label
-	if widget != "":
-		function_list.append(func_input.get_text().lower())
-
-	string = ""
-	if btn_diff.get_active() == True:
-		status = True
-	elif btn_same.get_active() == True:
-		status = False
+def clicked_namesake(widget):
+	clicked("",func_input.get_text().lower(),is3d = True)	
 
 
-	if status == False:
-		string = "s"
-		counter=1
+def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02,is3d = False): #remember that any callback function take the widget calling as their parameter
+	global counter, status, btn_same, btn_diff,function_list,my_label,scale,scale_range
+	if is3d == False:
+		if widget != "":
+			function_list.append(func_input.get_text().lower())
+
+
+	
+		if btn_diff.get_active() == True:
+			status = True
+		elif btn_same.get_active() == True:
+			status = False
+
+
+		string = ""
+		if status == False:
+			string = "s"
+			counter=1
+		else:
+			string = "d"
+			counter += 1
+
+		if widget !="":
+			check_and_plot(str(func_input.get_text().lower()),counter,string,-1*range_value,range_value,step_value)
+		else:
+			check_and_plot(function,counter,string,-1*range_value,range_value,step = step_value)
 	else:
-		string = "d"
-		counter += 1
-	if widget !="":
-		check_and_plot(str(func_input.get_text().lower()),counter,string,-1*range_value,range_value,step_value)
-	else:
-		check_and_plot(function,counter,string,-1*range_value,range_value,step = step_value)
+		step_value = scale.get_value()
+		range_value = scale_range.get_value()
+		step_value = 1/step_value
+		check_and_plot_3d(function,-1*range_value,range_value,step_value)
+
 	if len(err_log) > 0 or len(core_error)>0:
 		my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(1,0,0,1))
 		err_message = ""
@@ -70,6 +84,7 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02): #reme
 	else:
 		my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(0,1,0,1))
 		my_label.set_label("No Errors. Function Successfully Plotted!")
+		
 	win.queue_draw() #This shit redraws the window. To redraw any widget just replace the win withe the widget
 	err_log.clear()
 	core_error.clear()
@@ -112,9 +127,13 @@ v_box_horiz_3.pack_end(my_label,False,False,0)
 
 #Plot Button
 plot = Gtk.Button()
+plot_3d = Gtk.Button()
 plot.set_label("Plot")
+plot_3d.set_label("3D-Plot")
 plot.connect("clicked",clicked)
+plot_3d.connect("clicked",clicked_namesake)
 v_box_horiz.pack_start(plot,True,True,0)
+v_box_horiz.pack_start(plot_3d,True,True,0)
 
 #clear button
 reset = Gtk.Button()
