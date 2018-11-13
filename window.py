@@ -14,6 +14,7 @@ status = False #this variable keeps track of whether to plot on same or differen
 function_list = [] #list to hold all the functions that have been requested for plot
 
 def load_plot(widget):
+	print("rock")
 	fig_stat.clf()
 	load_and_plot("myfile.csv",int(scale_stat.get_value())+1)
 	win.queue_draw()
