@@ -96,7 +96,7 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02,is3d = 
 win = Gtk.Window()
 win.connect("delete-event",Gtk.main_quit)
 #win.set_default_size(800,600)
-win.set_title("Graph A")
+win.set_title("Graph Total Auto")
 win.set_position(Gtk.WindowPosition.CENTER)
 
 
@@ -177,7 +177,6 @@ scale_range = Gtk.Scale(orientation = Gtk.Orientation.HORIZONTAL,adjustment = ad
 scale_range.connect("value-changed",func_toggle)
 scale_range.set_value(2*math.pi)
 scale.connect("value-changed",func_toggle)
-#scale.set_label("Sensitivity")
 v_box_horiz_range.pack_start(scale_range,True,True,0)
 v_box_horiz_smoothness.pack_start(scale,True,True,0)
 
