@@ -6,12 +6,12 @@ import math
 
 fig_stat = plt.figure()
 
-def plot_best_fit(data_x,data_y,function,begin=-2*math.pi,end=2*math.pi,step = 0.2):
-	x = np.arange(begin,end,step)
+def plot_best_fit(data_x,data_y,function,name,step = 0.2):
+	x = np.arange(np.amin(data_x)-10,np.amax(data_x)+10,step)
 	y = eval_arr(x,function)
 	sub_plot = fig_stat.add_subplot(111)
 	sub_plot.scatter(data_x,data_y)
-	sub_plot.plot(x,y,label = function)
+	sub_plot.plot(x,y,label = name)
 	sub_plot.legend()
 	sub_plot.grid()
 	plt.show()
@@ -32,11 +32,14 @@ def fit_poly(data_x,data_y,order): #data_x and data_y are np arrays of one dimen
 	counter = 0
 	value = unknowns[0,0]
 	alg_exp = str(value)
+	alg_exp_name = str(round(value,3))
 	for i in range(1,len(unknowns)):
 		counter +=1
 		value = unknowns[i,0]
-		alg_exp = alg_exp + "+" + str(value) +"*x^" + str(counter) 
-	plot_best_fit(data_x,data_y,alg_exp)
+		value_name = round(unknowns[i,0],3)
+		alg_exp = alg_exp + "+" + "("+str(value)+")" +"*x^" + str(counter)
+		alg_exp_name = alg_exp_name + "+" + "("+str(value_name)+")" +"*x^" + str(counter) #I am doing this just to name the function to lower dp.
+	plot_best_fit(data_x,data_y,alg_exp,alg_exp_name)
 
 def cmd_input():
 	go_on = True
