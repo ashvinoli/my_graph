@@ -13,6 +13,11 @@ counter=0
 status = False #this variable keeps track of whether to plot on same or different plots. If true it is on same, else on different
 function_list = [] #list to hold all the functions that have been requested for plot
 
+def load_plot(widget):
+	fig_stat.clf()
+	load_and_plot("myfile.csv",int(scale_stat.get_value())+1)
+	win.queue_draw()
+
 def func_toggle(widget):
 	global fig, counter, scale,scale_range #must code
 	step_value = scale.get_value()
@@ -211,9 +216,22 @@ v_box_vert_stat.pack_start(canvas,True,True,0)
 v_box_vert_stat.pack_start(v_box_horiz_stat_scale,True,True,0)
 
 #buttons
+load_data = Gtk.Button()
+load_data.set_label("Load Data")
+v_box_horiz_stat_buttons.pack_start(load_data,True,True,0)
+load_data.connect("clicked",load_plot)
 
+#labels
+order_label_stat = Gtk.Label()
+order_label_stat.set_label("Fitting Order:")
+v_box_horiz_stat_scale.pack_start(order_label_stat,False,False,0)
 
 #scale
+ad_stat = Gtk.Adjustment(1,1,40,1,1,1)
+scale_stat = Gtk.Scale(orientation = Gtk.Orientation.HORIZONTAL,adjustment = ad_stat)
+scale_stat.connect("value-changed",load_plot)
+scale_stat.set_value(2)
+v_box_horiz_stat_scale.pack_start(scale_stat,True,True,0)
 
 
 
