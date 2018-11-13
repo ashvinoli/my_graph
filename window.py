@@ -92,13 +92,13 @@ def clicked(widget,function = "",range_value = 2*math.pi,step_value=0.02,is3d = 
 	#print(func_input.get_text())
 	#print(function_list)
 
-#main window
+#main window and tabs
 win = Gtk.Window()
 win.connect("delete-event",Gtk.main_quit)
 #win.set_default_size(800,600)
 win.set_title("Graph Total Auto")
 win.set_position(Gtk.WindowPosition.CENTER)
-
+notebook = Gtk.Notebook() #notebook to hold separate tabs
 
 #Three boxes. One main Vertical will contain the horizontal ones. Two horizontal and a canvas and the final horiz will be vertically placed on the vertical box
 v_box_horiz = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
@@ -107,8 +107,11 @@ v_box_horiz_3 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_smoothness = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_horiz_range = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
 v_box_vert = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing = 0)
+v_box_vert_stat = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing = 0) #this will hold statiscal graphs
 v_box_vert.pack_start(v_box_horiz,True,True,0)
 v_box_vert.pack_start(v_box_horiz_2,True,True,0)
+notebook.append_page(v_box_vert, Gtk.Label('Simple Plots')) #adding simple graphs i.e v_box_vert
+notebook.append_page(v_box_vert_stat,Gtk.Label('Statistics')) #adding the stat vert box
 
 #Function input box that will be included in the horizontal v_box
 func_input = Gtk.Entry()
@@ -187,8 +190,8 @@ v_box_vert.pack_start(v_box_horiz_3,True,True,0)
 
 
 #managing properties of main window and adding widgets that have been defined above
-win.add(v_box_vert)
-
+#win.add(v_box_vert)
+win.add(notebook)
 
 #check_and_plot("sin(x)",1,"s") #this function fills up the "fig" imported from other graph
 

@@ -34,7 +34,7 @@ def cmd_input():
 		data_x = np.append(data_x,x)
 		data_y = np.append(data_y,y)
 		anymore = input("Anymore:")
-		if anymore in ["y","Yes","Y"]:
+		if anymore in ["y","Yes","Y",]:
 			go_on = True
 		else:
 			go_on = False
