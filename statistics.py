@@ -23,7 +23,7 @@ def read_from_file(file_name):
 	F.close()
 
 def plot_best_fit(data_x,data_y,function,name,step = 0.2):
-	x = np.arange(np.amin(data_x)-10,np.amax(data_x)+10,step)
+	x = np.arange(np.amin(data_x)-1,np.amax(data_x)+1,step)
 	y = eval_arr(x,function)
 	sub_plot = fig_stat.add_subplot(111)
 	sub_plot.plot(x,y,label = name)
