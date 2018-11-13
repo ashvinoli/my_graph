@@ -11,7 +11,8 @@ y_data = np.array([])
 
 def load_and_plot(file_name,order):
 	read_from_file(file_name)
-	fit_poly(x_data,y_data,order)
+	exp = fit_poly(x_data,y_data,order)
+	return exp	
 
 def read_from_file(file_name):
 	global x_data,y_data
@@ -58,6 +59,7 @@ def fit_poly(data_x,data_y,order): #data_x and data_y are np arrays of one dimen
 	
 	alg_exp = "(" + alg_exp+ ")"	
 	plot_best_fit(data_x,data_y,alg_exp,alg_exp_name)
+	return alg_exp	
 
 def cmd_input():
 	go_on = True

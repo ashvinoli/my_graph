@@ -19,7 +19,9 @@ def reset_plot(widget):
 
 def load_plot(widget):
 	fig_stat.clf()
-	load_and_plot("myfile.csv",int(scale_stat.get_value())+1)
+	exp = load_and_plot("myfile.csv",int(scale_stat.get_value())+1)
+	func_input.set_text("")
+	func_input.set_text(exp)
 	win.queue_draw()
 
 def func_toggle(widget):
@@ -36,6 +38,7 @@ def func_toggle(widget):
 def reset_func(widget):
 	global counter, function_list,scale,scale_range,my_label
 	my_label.override_color(Gtk.StateFlags.NORMAL,Gdk.RGBA(0,0,1,1))
+	func_input.set_text("")
 	my_label.set_label("----RESET-----")
 	scale.set_value(5)
 	scale_range.set_value(2*math.pi)
