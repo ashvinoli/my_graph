@@ -78,4 +78,3 @@ def cmd_input():
 	order = int(input("Fit in order:"))
 	fit_poly(data_x,data_y,order+1)
 	
-
