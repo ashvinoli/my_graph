@@ -3,8 +3,24 @@ import matplotlib.pyplot as plt
 from graph import eval_arr
 from matplotlib.figure import Figure
 import math
+import os
 
-fig_stat = plt.figure("Regression")
+fig_stat = Figure(figsize = (5,4),dpi=100)
+x_data = np.array([])
+y_data = np.array([])
+
+def load_and_plot(file_name,order):
+	read_from_file(file_name)
+	fit_poly(x_data,y_data,order)
+
+def read_from_file(file_name):
+	global x_data,y_data
+	F = open(file_name,'r')
+	for i in F:
+		words = i.split(",")
+		x_data = np.append(x_data,float(words[0]))
+		y_data = np.append(y_data,float(words[1]))
+	F.close()
 
 def plot_best_fit(data_x,data_y,function,name,step = 0.2):
 	x = np.arange(np.amin(data_x)-10,np.amax(data_x)+10,step)
@@ -14,7 +30,7 @@ def plot_best_fit(data_x,data_y,function,name,step = 0.2):
 	sub_plot.scatter(data_x,data_y,marker = 'o', color = 'red')	
 	sub_plot.legend()
 	sub_plot.grid()
-	plt.show()
+	#plt.show()
 
 def fit_poly(data_x,data_y,order): #data_x and data_y are np arrays of one dimension.
 	mat_x = np.zeros((order,order))
@@ -60,6 +76,6 @@ def cmd_input():
 			go_on = False
 	
 	order = int(input("Fit in order:"))
-	unknowns = fit_poly(data_x,data_y,order+1)
-	print(unknowns)
-cmd_input()
+	fit_poly(data_x,data_y,order+1)
+	
+

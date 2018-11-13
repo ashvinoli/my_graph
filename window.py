@@ -4,6 +4,7 @@ from gi.repository import Gtk, Gdk
 from graph import fig, check_and_plot, check_and_plot_3d
 from graph import err_log
 from extraction import core_error
+from statistics import fig_stat,load_and_plot
 from matplotlib.backends.backend_gtk3agg import (FigureCanvasGTK3Agg as FigureCanvas)
 import math
 
@@ -189,13 +190,36 @@ v_box_vert.pack_start(v_box_horiz_range,True,True,0)
 v_box_vert.pack_start(v_box_horiz_3,True,True,0)
 
 
+
+
+
+
+
+
+##################GUI FOR PAGE 2 i.e Stat page#############################
+
+#boxes
+v_box_horiz_stat_buttons = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
+v_box_horiz_stat_scale =  Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL,spacing = 2)
+v_box_vert_stat.pack_start(v_box_horiz_stat_buttons,True,True,0)
+
+
+#canvas
+canvas = FigureCanvas(fig_stat)
+canvas.set_size_request(900,500)
+v_box_vert_stat.pack_start(canvas,True,True,0)
+v_box_vert_stat.pack_start(v_box_horiz_stat_scale,True,True,0)
+
+#buttons
+
+
+#scale
+
+
+
 #managing properties of main window and adding widgets that have been defined above
 #win.add(v_box_vert)
 win.add(notebook)
-
-#check_and_plot("sin(x)",1,"s") #this function fills up the "fig" imported from other graph
-
-
 win.show_all()
 Gtk.main()
 
