@@ -1,5 +1,20 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from graph import eval_arr
+from matplotlib.figure import Figure
+import math
 
+fig_stat = plt.figure()
+
+def plot_best_fit(data_x,data_y,function,begin=-2*math.pi,end=2*math.pi,step = 0.2):
+	x = np.arange(begin,end,step)
+	y = eval_arr(x,function)
+	sub_plot = fig_stat.add_subplot(111)
+	sub_plot.scatter(data_x,data_y)
+	sub_plot.plot(x,y,label = function)
+	sub_plot.legend()
+	sub_plot.grid()
+	plt.show()
 
 def fit_poly(data_x,data_y,order): #data_x and data_y are np arrays of one dimension.
 	mat_x = np.zeros((order,order))
@@ -21,7 +36,7 @@ def fit_poly(data_x,data_y,order): #data_x and data_y are np arrays of one dimen
 		counter +=1
 		value = unknowns[i,0]
 		alg_exp = alg_exp + "+" + str(value) +"*x^" + str(counter) 
-	return alg_exp
+	plot_best_fit(data_x,data_y,alg_exp)
 
 def cmd_input():
 	go_on = True
