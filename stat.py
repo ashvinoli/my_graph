@@ -4,14 +4,14 @@ from graph import eval_arr
 from matplotlib.figure import Figure
 import math
 
-fig_stat = plt.figure()
+fig_stat = plt.figure("Regression")
 
 def plot_best_fit(data_x,data_y,function,name,step = 0.2):
 	x = np.arange(np.amin(data_x)-10,np.amax(data_x)+10,step)
 	y = eval_arr(x,function)
 	sub_plot = fig_stat.add_subplot(111)
-	sub_plot.scatter(data_x,data_y)
 	sub_plot.plot(x,y,label = name)
+	sub_plot.scatter(data_x,data_y,marker = 'o', color = 'red')	
 	sub_plot.legend()
 	sub_plot.grid()
 	plt.show()
@@ -39,6 +39,8 @@ def fit_poly(data_x,data_y,order): #data_x and data_y are np arrays of one dimen
 		value_name = round(unknowns[i,0],3)
 		alg_exp = alg_exp + "+" + "("+str(value)+")" +"*x^" + str(counter)
 		alg_exp_name = alg_exp_name + "+" + "("+str(value_name)+")" +"*x^" + str(counter) #I am doing this just to name the function to lower dp.
+	
+	alg_exp = "(" + alg_exp+ ")"	
 	plot_best_fit(data_x,data_y,alg_exp,alg_exp_name)
 
 def cmd_input():
