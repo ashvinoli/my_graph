@@ -15,6 +15,9 @@ pattern_trig_raw = r"[s,c,t,l,a][a-z]*\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_cos = r"cos\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_sin = r"sin\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_tan = r"tan\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_cosh = r"cosh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_sinh = r"sinh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
+pattern_trig_tanh = r"tanh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_log = r"log\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_ln = r"ln\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_arcsin = r"arcsin\(\-{0,1}[0-9]+\.?[0-9]*?\)"
@@ -23,7 +26,7 @@ pattern_trig_arctan = r"arctan\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_arcsinh = r"arcsinh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_arccosh = r"arccosh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
 pattern_trig_arctanh = r"arctanh\(\-{0,1}[0-9]+\.?[0-9]*?\)"
-pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arccosh|arctanh"
+pattern_trig_general = r"sinh|cosh|tanh|sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arccosh|arctanh"
 
 
 
@@ -52,7 +55,16 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(round(math.cos(number),8))			
 			elif re.match(pattern_trig_tan,i):
 				number = float(re.findall(pattern_negative_num,i)[0])
-				output_queue.append(round((math.tan(number)),8))	
+				output_queue.append(round((math.tan(number)),8))
+			elif re.match(pattern_trig_cosh,i):
+				number = float(re.findall(pattern_negative_num,i)[0])
+				output_queue.append(round(math.cosh(number),8))			
+			elif re.match(pattern_trig_tanh,i):
+				number = float(re.findall(pattern_negative_num,i)[0])
+				output_queue.append(round((math.tanh(number)),8))
+			elif re.match(pattern_trig_sinh,i):
+				number = float(re.findall(pattern_negative_num,i)[0])
+				output_queue.append(round(math.cosh(number),8))			
 			elif re.match(pattern_trig_log,i):
 				try:
 					number = float(re.findall(pattern_negative_num,i)[0])
@@ -98,6 +110,12 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(round((math.cos(x)),8))
 			elif i=="tan(x)":
 				output_queue.append(round((math.tan(x)),8))
+			elif i=="sinh(x)":
+				output_queue.append(round((math.sinh(x)),8))
+			elif i=="cosh(x)":
+				output_queue.append(round((math.cosh(x)),8))
+			elif i=="tanh(x)":
+				output_queue.append(round((math.tanh(x)),8))
 			elif i == "log(x)":
 				try:
 					output_queue.append(round((math.log10(x)),8))
@@ -129,6 +147,12 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(round((math.cos(y)),8))
 			elif i=="tan(y)":
 				output_queue.append(round((math.tan(y)),8))
+			elif i=="sinh(y)":
+				output_queue.append(round((math.sinh(y)),8))
+			elif i=="cosh(y)":
+				output_queue.append(round((math.cosh(y)),8))
+			elif i=="tanh(y)":
+				output_queue.append(round((math.tanh(y)),8))
 			elif i == "log(y)":
 				output_queue.append(round((math.log10(y)),8))
 			elif i == "ln(y)":
@@ -151,6 +175,12 @@ def evaluate(queue,x=0.0,y=0.0,z=0.0):
 				output_queue.append(round((math.cos(z)),8))
 			elif i=="tan(z)":
 				output_queue.append(round((math.tan(z)),8))
+			elif i=="sinh(z)":
+				output_queue.append(round((math.sinh(z)),8))
+			elif i=="cosh(z)":
+				output_queue.append(round((math.cosh(z)),8))
+			elif i=="tanh(z)":
+				output_queue.append(round((math.tanh(z)),8))
 			elif i == "log(z)":
 				output_queue.append(round((math.log10(z)),8))
 			elif i == "ln(z)":

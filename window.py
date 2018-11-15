@@ -238,10 +238,9 @@ order_label_stat.set_label("Fitting Order:")
 v_box_horiz_stat_scale.pack_start(order_label_stat,False,False,0)
 
 #scale
-ad_stat = Gtk.Adjustment(1,1,40,1)
+ad_stat = Gtk.Adjustment(2,1,40,1)
 scale_stat = Gtk.Scale(orientation = Gtk.Orientation.HORIZONTAL,adjustment = ad_stat)
 scale_stat.connect("value-changed",load_plot)
-scale_stat.set_value(2)
 v_box_horiz_stat_scale.pack_start(scale_stat,True,True,0)
 
 

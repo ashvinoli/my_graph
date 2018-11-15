@@ -7,7 +7,7 @@ import math
 import re
 import sys
 
-pattern_trig_general = r"sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arccosh|arctanh"
+pattern_trig_general = r"sinh|cosh|tanh|sin|cos|tan|log|ln|log|arcsin|arccos|arctan|arcsinh|arccosh|arctanh"
 pattern_trig = r"[s,c,t,l,a][a-z]*\(.*?\)"
 pattern_trig_extend = r"[s,c,t,l,a][a-z]*\(.*\)"
 pattern_signs_no_brackets = r"[\+,\-,\*,%,\^,/]"
@@ -26,6 +26,7 @@ def bracket_check(string):
 			matches = re.findall(pattern_trig_general,string)			
 			slight_tokens.append(matches[0])
 			string = string[len(matches[0]):]
+			#print(string)
 		else:
 			slight_tokens.append(string[:1])
 			string = string[1:]
